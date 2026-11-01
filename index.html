@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>carga.pe Business</title>
+<title>Rastrea tu envío · carga.pe</title>
+<link rel="icon" type="image/png" sizes="96x96" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Rastrea tu envío de carga con carga.pe. Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
 :root{--bg:#F1F3F7;--surface:#fff;--ink:#14213D;--mute:#5E6B82;--line:#D9DEE8;--accent:#1D4ED8;--accent-ink:#fff;--ok-bg:#D9F2E6;--ok:#13694A;--warn-bg:#FFF0D1;--warn:#8F5600;--info-bg:#DDE7FB;--info:#1E3F96;
@@ -65,20 +68,33 @@ a{color:var(--accent);font-weight:600}
 .steps li.now::after{content:"actual";display:block;font-weight:400}
 @media(max-width:560px){.steps li{font-size:11px}.card{padding:14px 12px}}
 .hid{display:none}
+.site{background:var(--surface);border-bottom:1px solid var(--line)}
+.site>div{max-width:1050px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.site b{font-size:21px;letter-spacing:-.02em}.site i{font-style:normal;color:var(--accent)}
+.site span{margin-left:auto;color:var(--mute);font-size:14px}
+.hero{padding:34px 0 10px}.hero h1{font-size:32px;line-height:1.15;margin:0 0 8px;letter-spacing:-.02em}
+.hero p{font-size:16px;margin:0 0 16px;max-width:620px}.hero .lk{max-width:640px}.hero .lk input{padding:12px}.hero .lk .btn{padding:0 22px}
+.card h2{margin:0 0 6px;font-size:17px}.card p{margin:0}
+body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%}
+.sitefoot{border-top:1px solid var(--line);background:var(--surface)}
+.sitefoot>div{max-width:1050px;margin:0 auto;padding:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;color:var(--mute);font-size:13px}.sitefoot a{color:var(--mute);font-weight:500}
+@media(max-width:560px){.hero h1{font-size:25px}.site span{display:none}}
 .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<header class="site" id="site"><div><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><b>carga<i>.pe</i></b><span>Seguimiento de envíos</span></div></header>
 <div class="wrap">
-<div class="brand"><div class="logo" id="lg">C</div><div><b id="bn">carga.pe Business</b><span id="sub">Pantalla de control</span></div></div>
+<div class="brand"><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><div><b id="bn">carga.pe Business</b><span id="sub">Pantalla de control</span></div></div>
 <nav role="tablist" id="tabs">
   <button role="tab" data-t="o" aria-selected="true">Órdenes</button>
   <button role="tab" data-t="i" aria-selected="false">Inventarios</button>
   <button data-a="out" style="margin-left:auto">Salir</button>
 </nav>
-<main id="main"></main>
+<main id="main"><section class="hero"><h1>Rastrea tu envío</h1><p class="mute">Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.</p></section></main>
 </div>
+<footer class="sitefoot" id="sfoot"><div><span>© carga.pe · Servicio de Isiter Perú</span><a href="#admin">Acceso de administración</a></div></footer>
 <dialog id="dlg"><form id="frm"><h3 id="dt"></h3><div class="grid" id="df"></div><p class="err" id="err" role="alert"></p><div class="foot"><button type="button" class="btn sec" id="cx">Cancelar</button><button class="btn">Guardar</button></div></form></dialog>
 
 <dialog id="cdlg"><form method="dialog" id="cfrm"><h3>Eliminar orden</h3><p id="cmsg"></p><div class="foot"><button type="button" class="btn sec" id="ccx">Cancelar</button><button class="btn danger">Eliminar</button></div></form></dialog>
@@ -122,9 +138,11 @@ function vI(){
 }
 const EMPRESA='Isiter Perú';
 function vHome(){
-  return `<div class="card" style="padding:24px 18px"><h2 style="margin:0 0 4px">Rastrea tu envío</h2><p class="mute" style="margin:0 0 14px">Ingresa tu código de seguimiento para ver el estado de tu carga.</p>
-  <form id="sf" class="lk"><input id="sq" placeholder="Código de seguimiento" autocomplete="off" aria-label="Código de seguimiento" required><button class="btn">Buscar</button></form><p class="err" id="se" role="alert" style="margin:6px 0 0"></p></div>
-  <p class="mute"><a href="#admin">Acceso de administración</a></p>`;
+  return `<section class="hero"><h1>Rastrea tu envío</h1><p class="mute">Ingresa el código de seguimiento que te enviaron y consulta en qué etapa está tu carga, sin necesidad de llamar.</p>
+  <form id="sf" class="lk"><input id="sq" placeholder="Tu código de seguimiento" autocomplete="off" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form><p class="err" id="se" role="alert" style="margin:6px 0 0"></p></section>
+  <div class="card"><h2>¿Dónde encuentro mi código?</h2><p class="mute">Quien gestiona tu carga te lo envía junto con un enlace de seguimiento. Si abres ese enlace, verás tu envío directamente. Si no lo tienes, pídeselo.</p></div>
+  <div class="card"><h2>Etapas de tu envío</h2><p class="mute">Tu carga pasa por estas etapas hasta llegar a destino.</p><ol class="steps" aria-label="Etapas">${EST.map(e=>`<li>${e}</li>`).join('')}</ol></div>
+`;
 }
 const link=o=>location.href.split('#')[0]+'#seg-'+o.token;
 const peso=o=>typeof o.peso==='number'?o.peso.toLocaleString('es-PE')+' kg':'—';
@@ -149,10 +167,10 @@ async function render(){
   document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
   const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',pub=!ad&&!mo;
   $('#tabs').style.display=ad&&user?'':'none';
-  $('#lg').textContent=pub?EMPRESA[0]:'C';
-  $('#bn').textContent=pub?EMPRESA:'carga.pe Business';
-  $('#sub').textContent=pub?'Seguimiento de carga · carga.pe':'Pantalla de control';
-  document.title=pub?EMPRESA+' · Seguimiento':'carga.pe Business';
+  $('#site').style.display=pub?'':'none';
+  $('#sfoot').style.display=pub?'':'none';
+  $('.brand').style.display=pub?'none':'';
+  document.title=pub?(mc?'Seguimiento de tu envío · carga.pe':'Rastrea tu envío · carga.pe'):'carga.pe Business';
   if(!mc)SEG.t=null;
   if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
   $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():vI()):vHome();
