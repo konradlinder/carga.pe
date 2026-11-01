@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>carga.pe Business</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#F1F3F7;--surface:#fff;--ink:#14213D;--mute:#5E6B82;--line:#D9DEE8;--accent:#1D4ED8;--accent-ink:#fff;--ok-bg:#D9F2E6;--ok:#13694A;--warn-bg:#FFF0D1;--warn:#8F5600;--info-bg:#DDE7FB;--info:#1E3F96;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1526;--surface:#162038;--ink:#E8EDF7;--mute:#98A5BD;--line:#2A3858;--accent:#6E9BFF;--accent-ink:#0A1530;--ok-bg:#133A2B;--ok:#6FD6A6;--warn-bg:#3A2B0F;--warn:#F2B75B;--info-bg:#1C2D57;--info:#A9C4FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D1526;--surface:#162038;--ink:#E8EDF7;--mute:#98A5BD;--line:#2A3858;--accent:#6E9BFF;--accent-ink:#0A1530;--ok-bg:#133A2B;--ok:#6FD6A6;--warn-bg:#3A2B0F;--warn:#F2B75B;--info-bg:#1C2D57;--info:#A9C4FF;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1050px;margin:0 auto;padding:20px 16px 60px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:18px}
+.brand b{font-size:20px;letter-spacing:-.01em}.brand span{color:var(--mute);font-size:14px;margin-left:4px}
+nav{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px}
+nav button{background:none;border:0;padding:10px 18px;font:inherit;font-weight:600;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+nav button[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.bar h2{margin:0;font-size:19px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{padding:4px 10px;font-size:13px}
+.btn.danger{background:#C03030;color:#fff}
+.btn svg{display:block}
+.rowact{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;white-space:nowrap}
+.btn.sm svg{margin:2px 0}
+.btn:focus-visible,nav button:focus-visible,input:focus-visible,select:focus-visible,.seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.seg{max-width:100%;overflow-x:auto;display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 12px;font:inherit;font-weight:600;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:960px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;color:var(--mute);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td small{display:block;color:var(--mute)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12.5px;font-weight:600}
+.t-Pendiente{background:var(--warn-bg);color:var(--warn)}.t-Entransito{background:var(--info-bg);color:var(--info)}.t-Entregada{background:var(--ok-bg);color:var(--ok)}
+td select{width:auto;margin:0;padding:4px 6px;font-size:13px}
+.empty{padding:34px 16px;text-align:center;color:var(--mute)}
+.sum{display:flex;gap:20px;color:var(--mute);margin:10px 0 12px}.sum b{color:var(--ink)}
+dialog{border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);padding:0;width:min(600px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(5,10,25,.55)}
+dialog form{padding:18px 20px}
+dialog h3{margin:0 0 14px;font-size:19px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid .full{grid-column:1/-1}
+label{display:block;font-size:13px;font-weight:600;color:var(--mute)}
+input,select{display:block;width:100%;margin-top:3px;padding:8px 10px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px}
+.err{color:#C03030;font-weight:600;min-height:20px;margin:10px 0 0}
+a{color:var(--accent);font-weight:600}
+.mute{color:var(--mute)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px}
+.dl{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;margin:0}.dl dt{color:var(--mute);font-weight:600}.dl dd{margin:0}
+.lk{display:flex;gap:8px;margin:8px 0}.lk input{margin:0}
+.steps{list-style:none;display:flex;gap:4px;padding:0;margin:18px 0 4px;flex-wrap:nowrap}
+.steps li{flex:1 1 0;min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:600;color:var(--mute);border-top:4px solid var(--line);padding-top:6px}
+.steps li.done{border-color:var(--accent);color:var(--ink)}
+.steps li.now{border-color:var(--accent);color:var(--accent)}
+.steps li.now::after{content:"actual";display:block;font-weight:400}
+@media(max-width:560px){.steps li{font-size:11px}.card{padding:14px 12px}}
+.hid{display:none}
+.foot{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="brand"><div class="logo" id="lg">C</div><div><b id="bn">carga.pe Business</b><span id="sub">Pantalla de control</span></div></div>
+<nav role="tablist" id="tabs">
+  <button role="tab" data-t="o" aria-selected="true">Órdenes</button>
+  <button role="tab" data-t="i" aria-selected="false">Inventarios</button>
+  <button data-a="out" style="margin-left:auto">Salir</button>
+</nav>
+<main id="main"></main>
+</div>
+<dialog id="dlg"><form id="frm"><h3 id="dt"></h3><div class="grid" id="df"></div><p class="err" id="err" role="alert"></p><div class="foot"><button type="button" class="btn sec" id="cx">Cancelar</button><button class="btn">Guardar</button></div></form></dialog>
+
+<dialog id="cdlg"><form method="dialog" id="cfrm"><h3>Eliminar orden</h3><p id="cmsg"></p><div class="foot"><button type="button" class="btn sec" id="ccx">Cancelar</button><button class="btn danger">Eliminar</button></div></form></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const LUG=['Lima','Cusco','Arequipa','Otros'],ALM=['Lima','Cusco','Arequipa'],EST=['Cotizado','En origen','En tránsito','En destino','Entregado'],CON=['Por cobrar','Cobrado'];
+const today=()=>new Date().toISOString().slice(0,10);
+const fd=d=>d?d.split('-').reverse().join('/'):'';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase =====
+const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let S={o:[]},user=null,SEG={t:null,o:null},tab='o',alm='Lima';
+const fromDb=r=>({num:r.num,id:'ORD-'+String(r.num).padStart(4,'0'),fecha:r.fecha,fe:r.fe,cliente:r.cliente,origen:r.origen,destino:r.destino,desc:r.mercancia,bultos:r.bultos,peso:r.peso==null?null:+r.peso,estado:r.estado,cond:r.cond,token:r.token});
+async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb)}
+
+function vO(){
+  let h=`<div class="bar"><h2>Órdenes</h2><button class="btn" data-a="no">Nueva orden</button></div>`;
+  if(!S.o.length)return h+`<div class="tw"><div class="empty">Todavía no hay órdenes. Crea la primera con “Nueva orden”.</div></div>`;
+  h+=`<div class="tw"><table><thead><tr><th>N° de orden</th><th>Cliente</th><th>Origen</th><th>Destino</th><th>Mercancía</th><th class="num"># Bultos</th><th class="num">Peso (kg)</th><th>Estado</th><th>Condición</th><th></th></tr></thead><tbody>`;
+  [...S.o].reverse().forEach((o,_)=>{
+    const idx=S.o.indexOf(o);
+    h+=`<tr><td><a href="#orden-${o.id}"><b>${o.id}</b></a><small>${fd(o.fecha)}</small></td><td>${esc(o.cliente)}</td><td>${esc(o.origen||'—')}</td><td>${esc(o.destino||'—')}</td><td>${esc(o.desc)}</td><td class="num">${o.bultos??'—'}</td><td class="num">${typeof o.peso==='number'?o.peso.toLocaleString('es-PE'):'—'}</td><td><select data-a="es" data-i="${idx}" aria-label="Estado de ${o.id}">${EST.map(e=>`<option${e===o.estado?' selected':''}>${e}</option>`).join('')}</select></td><td><select data-a="co" data-i="${idx}" aria-label="Condición de ${o.id}">${CON.map(e=>`<option${e===o.cond?' selected':''}>${e}</option>`).join('')}</select></td><td><div class="rowact"><button class="btn sec sm" data-a="del" data-i="${idx}" aria-label="Eliminar ${o.id}" title="Eliminar">${TRASH}</button><button class="btn sm" data-a="eo" data-i="${idx}">Editar</button></div></td></tr>`;
+  });
+  return h+`</tbody></table></div>`;
+}
+const LOC=[...ALM,'En tránsito'];
+const enLoc=o=>o.estado==='En origen'?o.origen:o.estado==='En destino'?o.destino:o.estado==='En tránsito'?'En tránsito':null;
+function vI(){
+  const it=S.o.filter(o=>enLoc(o)===alm);
+  const b=it.reduce((a,o)=>a+(o.bultos||0),0),p=it.reduce((a,o)=>a+(o.peso||0),0);
+  let h=`<div class="bar"><h2>Inventarios</h2></div>
+  <div class="seg" role="group" aria-label="Ubicación">${LOC.map(a=>`<button data-alm="${a}" aria-pressed="${a===alm}">${a}</button>`).join('')}</div>
+  <p class="mute" style="margin:10px 0 0">${alm==='En tránsito'?'Órdenes en camino entre su origen y destino.':'Órdenes en estado “En origen” o “En destino” que están en este almacén.'}</p>
+  <div class="sum"><span><b>${b}</b> bultos</span><span><b>${p.toLocaleString('es-PE')}</b> kg</span><span><b>${it.length}</b> órdenes</span></div>`;
+  if(!it.length)return h+`<div class="tw"><div class="empty">No hay órdenes ${alm==='En tránsito'?'en tránsito':'en el almacén de '+alm}.</div></div>`;
+  h+=`<div class="tw"><table><thead><tr><th>Orden</th><th>Cliente</th><th>Mercancía</th><th>Origen</th><th>Destino</th><th>Desde</th><th class="num"># Bultos</th><th class="num">Peso (kg)</th></tr></thead><tbody>`;
+  it.forEach(o=>h+=`<tr><td><a href="#orden-${o.id}"><b>${o.id}</b></a></td><td>${esc(o.cliente)}</td><td>${esc(o.desc)}</td><td>${esc(o.origen||'—')}</td><td>${esc(o.destino||'—')}</td><td>${fd(o.fe||o.fecha)}</td><td class="num">${o.bultos??'—'}</td><td class="num">${peso(o).replace(' kg','')}</td></tr>`);
+  return h+`</tbody></table></div>`;
+}
+const EMPRESA='Isiter Perú';
+function vHome(){
+  return `<div class="card" style="padding:24px 18px"><h2 style="margin:0 0 4px">Rastrea tu envío</h2><p class="mute" style="margin:0 0 14px">Ingresa tu código de seguimiento para ver el estado de tu carga.</p>
+  <form id="sf" class="lk"><input id="sq" placeholder="Código de seguimiento" autocomplete="off" aria-label="Código de seguimiento" required><button class="btn">Buscar</button></form><p class="err" id="se" role="alert" style="margin:6px 0 0"></p></div>
+  <p class="mute"><a href="#admin">Acceso de administración</a></p>`;
+}
+const link=o=>location.href.split('#')[0]+'#seg-'+o.token;
+const peso=o=>typeof o.peso==='number'?o.peso.toLocaleString('es-PE')+' kg':'—';
+function vOrd(id){
+  const o=S.o.find(x=>x.id===id),back='<p><a href="#admin">← Volver a órdenes</a></p>';
+  if(!o)return back+`<div class="tw"><div class="empty">No existe la orden ${esc(id)}.</div></div>`;
+  const i=S.o.indexOf(o);
+  return back+`<div class="bar"><h2>${o.id}</h2><span class="rowact"><button class="btn sec" data-a="del" data-i="${i}" aria-label="Eliminar ${o.id}" title="Eliminar">${TRASH}</button><button class="btn" data-a="eo" data-i="${i}">Editar</button></span></div>
+  <div class="card"><dl class="dl"><dt>Cliente</dt><dd>${esc(o.cliente)}</dd><dt>Mercancía</dt><dd>${esc(o.desc)}</dd><dt>Origen</dt><dd>${esc(o.origen||'—')}</dd><dt>Destino</dt><dd>${esc(o.destino||'—')}</dd><dt># Bultos</dt><dd>${o.bultos??'—'}</dd><dt>Peso</dt><dd>${peso(o)}</dd><dt>Estado</dt><dd>${o.estado}</dd><dt>Condición</dt><dd>${o.cond}</dd><dt>Creada</dt><dd>${fd(o.fecha)}</dd></dl></div>
+  <div class="card"><b>Enlace de seguimiento para el cliente</b><p class="mute">Quien tenga este enlace ve solo esta orden.</p><div class="lk"><input readonly value="${esc(link(o))}" aria-label="Enlace de seguimiento"><button class="btn" data-a="cp">Copiar</button></div><a href="#seg-${o.token}">Ver como cliente</a><p class="mute" id="cpm"></p></div>`;
+}
+function vC(t){
+  const o=SEG.o;
+  if(!o)return `<div class="tw"><div class="empty">No encontramos este seguimiento. Verifica el enlace que te enviaron.</div></div>`;
+  const k=EST.indexOf(o.estado);
+  return `<div class="card"><span class="mute">Orden</span><h2 style="margin:0 0 4px">${o.id}</h2><h3 style="margin:16px 0 0;font-size:16px">Sigue tu envío</h3><ol class="steps" aria-label="Progreso">${EST.map((e,j)=>`<li class="${j<k?'done':j===k?'now':''}">${e}</li>`).join('')}</ol></div>
+  <div class="card"><h3 style="margin:0 0 10px;font-size:16px">Detalles de la orden</h3><dl class="dl"><dt>Cliente</dt><dd>${esc(o.cliente)}</dd><dt>Mercancía</dt><dd>${esc(o.desc)}</dd><dt>Origen</dt><dd>${esc(o.origen||'—')}</dd><dt>Destino</dt><dd>${esc(o.destino||'—')}</dd><dt># Bultos</dt><dd>${o.bultos??'—'}</dd><dt>Peso</dt><dd>${peso(o)}</dd><dt>Pago</dt><dd>${o.cond}</dd></dl></div>
+  <p><a href="#">← Buscar otra orden</a></p><p class="mute">Aquí solo se muestra esta orden.</p>`;
+}
+const vLogin=()=>`<div class="card" style="max-width:380px;margin:30px auto"><h2 style="margin:0 0 10px">Acceso de administración</h2><form id="lf"><label>Correo<input name="email" type="email" required autocomplete="username"></label><label style="margin-top:10px">Contraseña<input name="pw" type="password" required autocomplete="current-password"></label><p class="err" id="le" role="alert"></p><button class="btn">Entrar</button></form></div><p><a href="#">← Volver</a></p>`;
+async function render(){
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
+  const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',pub=!ad&&!mo;
+  $('#tabs').style.display=ad&&user?'':'none';
+  $('#lg').textContent=pub?EMPRESA[0]:'C';
+  $('#bn').textContent=pub?EMPRESA:'carga.pe Business';
+  $('#sub').textContent=pub?'Seguimiento de carga · carga.pe':'Pantalla de control';
+  document.title=pub?EMPRESA+' · Seguimiento':'carga.pe Business';
+  if(!mc)SEG.t=null;
+  if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
+  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():vI()):vHome();
+}
+
+const lv=v=>!v?'':LUG.includes(v)?v:'Otros';
+function field(f){
+  const r=f.req?' required':'';
+  if(f.t==='lugar')return `<label>${f.l}<select name="${f.k}" data-otro="1"><option value="">Seleccionar</option>${LUG.map(o=>`<option${o===lv(f.v)?' selected':''}>${o}</option>`).join('')}</select><input class="${lv(f.v)==='Otros'?'':'hid'}" name="${f.k}_otro" value="${esc(lv(f.v)==='Otros'?f.v:'')}" placeholder="Especifica el lugar"></label>`;
+  const c=f.t==='select'?`<select name="${f.k}">${f.o.map(o=>`<option${o===f.v?' selected':''}>${o}</option>`).join('')}</select>`:`<input name="${f.k}" type="${f.t||'text'}" value="${esc(f.v??'')}"${r}${f.t==='number'?' min="1" step="any"':''}>`;
+  return `<label class="${f.full?'full':''}">${f.l}${c}</label>`;
+}
+let onSave;
+function openForm(t,fs,cb){$('#dt').textContent=t;$('#err').textContent='';$('#df').innerHTML=fs.map(field).join('');onSave=cb;$('#dlg').showModal()}
+$('#cx').onclick=()=>$('#dlg').close();
+$('#frm').onsubmit=async e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));const er=await onSave(o);if(er){$('#err').textContent=er;return}$('#dlg').close();await load();render()};
+
+const TRASH='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+function askDel(i){
+  const o=S.o[i];
+  $('#cmsg').textContent='¿Eliminar la orden '+o.id+' de '+o.cliente+'? Esta acción no se puede deshacer y el enlace de seguimiento del cliente dejará de funcionar.';
+  $('#cdlg').showModal();
+  $('#cfrm').onsubmit=async e=>{e.preventDefault();const{error}=await db.from('ordenes').delete().eq('num',o.num);if(error)alert(error.message);$('#cdlg').close();location.hash='admin';await load();render()};
+}
+$('#ccx').onclick=()=>$('#cdlg').close();
+function newO(ord){
+  const v=k=>ord?ord[k]:undefined;
+  openForm(ord?'Editar orden '+ord.id:'Nueva orden',[
+    {k:'cliente',l:'Cliente *',req:1,full:1,v:v('cliente')},{k:'desc',l:'Mercancía *',req:1,full:1,v:v('desc')},
+    {k:'origen',l:'Origen',t:'lugar',v:v('origen')},{k:'destino',l:'Destino',t:'lugar',v:v('destino')},
+    {k:'bultos',l:'# Bultos',t:'number',v:v('bultos')},{k:'peso',l:'Peso (kg)',t:'number',v:v('peso')},
+    {k:'estado',l:'Estado',t:'select',o:EST,v:v('estado')},{k:'cond',l:'Condición de cobro',t:'select',o:CON,v:v('cond')}
+  ],async o=>{
+    o.bultos=o.bultos===''?null:Math.floor(+o.bultos);o.peso=o.peso===''?null:+o.peso;
+    for(const k of ['origen','destino']){if(o[k]==='Otros')o[k]=(o[k+'_otro']||'').trim();delete o[k+'_otro']}
+    const row={cliente:o.cliente,mercancia:o.desc,origen:o.origen||null,destino:o.destino||null,bultos:o.bultos,peso:o.peso,estado:o.estado,cond:o.cond};
+    if(ord&&ord.estado!==o.estado)row.fe=today();
+    const{error}=ord?await db.from('ordenes').update(row).eq('num',ord.num):await db.from('ordenes').insert(row);
+    if(error)return error.message;
+    tab='o';
+  });
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-t],[data-a],[data-alm]');if(!t)return;
+  if(t.dataset.t){tab=t.dataset.t;render()}
+  else if(t.dataset.alm){alm=t.dataset.alm;render()}
+  else if(t.dataset.a==='no')newO();
+  else if(t.dataset.a==='eo')newO(S.o[+t.dataset.i]);
+  else if(t.dataset.a==='del')askDel(+t.dataset.i);
+  else if(t.dataset.a==='cp'){const inp=t.parentNode.querySelector('input');inp.select();let ok=false;try{ok=document.execCommand('copy')}catch(x){}const m=$('#cpm');if(m)m.textContent=ok?'Enlace copiado.':'Selecciona el enlace y cópialo con Ctrl+C.'}
+  else if(t.dataset.a==='out'){db.auth.signOut();user=null;S.o=[];location.hash='';render()}
+});
+document.addEventListener('change',async e=>{
+  const s=e.target.closest('[data-otro]');
+  if(s){const i=s.parentNode.querySelector('.hid,input');const on=s.value==='Otros';i.classList.toggle('hid',!on);if(on)i.focus();return}
+  const t=e.target.closest('[data-a="es"],[data-a="co"]');if(!t)return;
+  const oo=S.o[+t.dataset.i],k=t.dataset.a==='es'?'estado':'cond',p={[k]:t.value};if(k==='estado')p.fe=today();const{error}=await db.from('ordenes').update(p).eq('num',oo.num);if(error)alert(error.message);await load();render();
+});
+document.addEventListener('submit',async e=>{
+  if(e.target.id==='sf'){e.preventDefault();const q=$('#sq').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');if(!q){$('#se').textContent='Ingresa tu código de seguimiento.';return}location.hash='seg-'+q}
+  if(e.target.id==='lf'){e.preventDefault();const f=new FormData(e.target);const{data,error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('pw')});if(error){$('#le').textContent='Correo o contraseña incorrectos.';return}user=data.user;await load();render()}
+});
+(async()=>{const{data}=await db.auth.getSession();user=data.session?data.session.user:null;if(user)await load();addEventListener('hashchange',render);render()})();
+</script>
+</body>
+</html>
