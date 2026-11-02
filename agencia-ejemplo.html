@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Andes Cargo Express · Agencia de carga · carga.pe</title>
+<meta name="description" content="Envíos de carga por tierra a todo el Perú. Cotiza tu envío y rastréalo con carga.pe.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--soft:#f3f6fc;--ink:#0f1b3d;--mute:#5b667d;--line:#e3e8f0;--accent:#1d4ed8;--accent-ink:#fff;--shadow:0 10px 30px rgba(15,27,61,.10)}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1424;--soft:#141b30;--ink:#eef2fb;--mute:#9aa6c0;--line:#27304a;--accent:#6e9bff;--accent-ink:#0e1424;--shadow:0 10px 30px rgba(0,0,0,.4)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;font:16px/1.55 "Public Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:inherit}.w{max-width:1160px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:600 16px "Public Sans",sans-serif;padding:14px 24px;cursor:pointer;text-decoration:none}
+.btn.o{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;gap:22px;height:68px}
+.lg{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;text-decoration:none}
+.mk{width:36px;height:36px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
+nav{margin-left:auto;display:flex;gap:22px}nav a{color:var(--mute);text-decoration:none;font-weight:500;font-size:15px}nav a:hover{color:var(--ink)}
+.ej{background:var(--soft);color:var(--mute);font-size:13px;text-align:center;padding:6px 12px}
+.hero{background:linear-gradient(90deg,var(--bg) 38%,transparent 75%),url(hero.jpg) right center/auto 100% no-repeat var(--bg);padding:76px 0 90px}
+.hero h1{font-size:clamp(34px,5vw,56px);line-height:1.08;letter-spacing:-.03em;margin:0 0 16px;max-width:620px}
+.hero h1 em{font-style:normal;color:var(--accent)}.hero p{font-size:19px;color:var(--mute);max-width:520px;margin:0 0 26px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}.trust{display:flex;flex-wrap:wrap;gap:8px 22px;margin:26px 0 0;padding:0;list-style:none;color:var(--mute);font-size:14.5px}
+.trust li:before{content:"✓ ";color:var(--accent);font-weight:700}
+.tr input{font:16px "Public Sans",sans-serif;padding:13px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+section{padding:60px 0}section.s{background:var(--soft)}
+h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em;line-height:1.15;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 30px;max-width:600px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.c{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:24px}
+.c svg,.ic{width:30px;height:30px;color:var(--accent);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.c h3{margin:0 0 6px;font-size:18px}.c p{margin:0;color:var(--mute);font-size:15px}
+.rt{display:flex;align-items:center;gap:12px;padding:16px 20px;font-weight:600}.rt i{font-style:normal;color:var(--accent)}.g3.r2{grid-template-columns:repeat(2,1fr)}
+.pa{counter-reset:p}.pa .c{position:relative;padding-top:52px}.pa .c:before{counter-increment:p;content:counter(p);position:absolute;top:18px;left:24px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.pa{grid-template-columns:repeat(4,1fr)}
+.tr{background:var(--accent);color:var(--accent-ink);border-radius:20px;padding:34px;display:flex;flex-wrap:wrap;gap:18px 30px;align-items:center}
+.tr h2{margin:0;font-size:26px}.tr p{margin:4px 0 0;opacity:.85}.tr form{margin-left:auto;display:flex;gap:10px;flex:1;min-width:280px;max-width:480px}
+.tr .btn{background:var(--bg);color:var(--ink)}
+details{border-bottom:1px solid var(--line);padding:16px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mute);margin:10px 0 0}
+.ct{display:grid;grid-template-columns:1.1fr 1fr;gap:30px}.ct dl{margin:0;display:grid;gap:14px}.ct dt{font-size:13px;color:var(--mute);font-weight:600}.ct dd{margin:2px 0 0;font-weight:500}
+.mp{border-radius:16px;background:var(--soft);border:1px dashed var(--line);display:grid;place-items:center;color:var(--mute);min-height:220px;text-align:center;padding:20px}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-size:14px}footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+@media(max-width:860px){nav{display:none}.hero{background:linear-gradient(180deg,var(--bg) 55%,transparent),url(hero.jpg) center bottom/100% auto no-repeat var(--bg);padding:44px 0 260px}
+.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}}
+</style>
+</head>
+<body>
+<div class="ej">Página de ejemplo · los datos de esta agencia son ficticios</div>
+<header><div class="w"><a class="lg" href="#" id="lg"></a><nav><a href="#servicios">Servicios</a><a href="#rutas">Cobertura</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav><a class="btn" id="hw" href="#">Cotizar</a></div></header>
+<main>
+<section class="hero"><div class="w"><h1 id="h1"></h1><p id="hp"></p><div class="cta"><a class="btn" id="hc" href="#">Cotizar por WhatsApp</a><a class="btn o" href="#rastreo">Rastrear mi envío</a></div><ul class="trust" id="tru"></ul></div></section>
+<section id="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3" id="sv"></div></div></section>
+<section class="s" id="rutas"><div class="w"><h2>Cobertura y rutas</h2><p class="sub">Salidas regulares desde nuestros almacenes.</p><div class="g3 r2" id="rt"></div></div></section>
+<section><div class="w"><h2>Cómo funciona</h2><p class="sub">Cuatro pasos, con seguimiento en cada uno.</p><div class="g3 pa" id="pa"></div></div></section>
+<section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento en carga.pe.</p></div><form id="tf"><input id="tc" placeholder="Código de seguimiento" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div></div></section>
+<section class="s" id="faq"><div class="w" style="max-width:780px"><h2>Preguntas frecuentes</h2><div id="fq" style="margin-top:20px"></div></div></section>
+<section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#">Escribir por WhatsApp</a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
+</main>
+<footer><div class="w"><span id="ft"></span><span>Seguimiento de envíos por <a href="index.html"><b>carga.pe</b></a></span></div></footer>
+<script>
+// ===== DATOS DE LA AGENCIA (más adelante vendrán de Supabase) =====
+const A={nombre:'Andes Cargo Express',inicial:'A',
+ titulo:'Tu carga, de Lima a todo el <em>Perú</em>',
+ bajada:'Transporte terrestre de carga con recojo a domicilio, salidas diarias y seguimiento de tu envío en cada etapa.',
+ whatsapp:'51999999999',telefono:'+51 999 999 999',email:'ventas@ejemplo.pe',
+ direccion:'Av. Ejemplo 123, Lima',horario:'Lunes a sábado · 8:00 a 18:00',
+ garantias:['Recojo a domicilio','Salidas diarias','Seguimiento en línea'],
+ servicios:[['truck','Carga terrestre','Camiones propios para carga completa o parcial a nivel nacional.'],['layers','Carga consolidada','Comparte espacio y paga solo por lo que envías.'],['clock','Envíos express','Entregas prioritarias para cuando no puedes esperar.'],['pin','Recojo y entrega','Recogemos en tu local y entregamos en destino.'],['box','Almacenaje','Resguardamos tu mercadería antes y después del envío.']],
+ rutas:[['Lima','Arequipa'],['Arequipa','Lima'],['Lima','Cusco'],['Cusco','Lima']],
+ pasos:[['Cotiza','Cuéntanos qué envías y a dónde. Te respondemos con precio y plazo.'],['Recogemos','Pasamos por tu local o recibes tu carga en nuestro almacén.'],['Seguimiento','Con tu código ves en qué etapa está tu carga.'],['Entrega','Tu carga llega a destino y se confirma la entrega.']],
+ faq:[['¿Cómo calculan el precio?','Según el peso, el volumen, el destino y el tipo de carga. Escríbenos por WhatsApp con esos datos y te enviamos la cotización.'],['¿Cuánto demora un envío?','Depende de la ruta y del tipo de carga. Al cotizar te indicamos un plazo estimado.'],['¿Cómo rastreo mi carga?','Con el código de seguimiento que te entregamos, ingresándolo en carga.pe.']]};
+// ===== PINTAR LA PÁGINA =====
+const $=s=>document.querySelector(s),wa=t=>`https://wa.me/${A.whatsapp}?text=${encodeURIComponent(t)}`;
+const IC={truck:'<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
+layers:'<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+box:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
+document.title=A.nombre+' · Agencia de carga · carga.pe';
+$('#lg').innerHTML=`<span class="mk">${A.inicial}</span>${A.nombre}`;
+$('#h1').innerHTML=A.titulo;$('#hp').textContent=A.bajada;
+$('#tru').innerHTML=A.garantias.map(g=>`<li>${g}</li>`).join('');
+$('#hw').href=$('#hc').href=$('#cc').href=wa(`Hola ${A.nombre}, quisiera cotizar un envío.`);
+$('#sv').innerHTML=A.servicios.map(s=>`<div class="c"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[s[0]]}</svg><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join('');
+$('#rt').innerHTML=A.rutas.map(r=>`<div class="c rt">${r[0]} <i>→</i> ${r[1]}</div>`).join('');
+$('#pa').innerHTML=A.pasos.map(p=>`<div class="c"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('');
+$('#fq').innerHTML=A.faq.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
+$('#dl').innerHTML=[['Teléfono / WhatsApp',A.telefono],['Correo',A.email],['Dirección',A.direccion],['Horario',A.horario]].map(d=>`<div><dt>${d[0]}</dt><dd>${d[1]}</dd></div>`).join('');
+$('#ft').textContent='© '+new Date().getFullYear()+' '+A.nombre;
+$('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(c)location.href='index.html#seg-'+c};
+</script>
+</body>
+</html>
