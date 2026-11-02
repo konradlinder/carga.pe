@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rastrea tu envío · carga.pe</title>
-<link rel="icon" type="image/png" sizes="96x96" href="favicon.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Rastrea tu envío de carga con carga.pe. Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
@@ -69,22 +70,33 @@ a{color:var(--accent);font-weight:600}
 @media(max-width:560px){.steps li{font-size:11px}.card{padding:14px 12px}}
 .hid{display:none}
 .site{background:var(--surface);border-bottom:1px solid var(--line)}
-.site>div{max-width:1050px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
-.site b{font-size:21px;letter-spacing:-.02em}.site i{font-style:normal;color:var(--accent)}
-.site span{margin-left:auto;color:var(--mute);font-size:14px}
-.hero{padding:34px 0 10px}.hero h1{font-size:32px;line-height:1.15;margin:0 0 8px;letter-spacing:-.02em}
-.hero p{font-size:16px;margin:0 0 16px;max-width:620px}.hero .lk{max-width:640px}.hero .lk input{padding:12px}.hero .lk .btn{padding:0 22px}
+.site>div{max-width:1200px;margin:0 auto;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.site .brandlink{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none}
+.site b{font-size:34px;letter-spacing:-.03em;line-height:1}.site i{font-style:normal;color:var(--accent)}
+.cube{width:40px;height:44px}.cube .t{fill:#5B8DEF}.cube .l{fill:var(--accent)}.cube .r{fill:#1E3A8A}
+.site .faq{color:var(--mute);font-weight:500;text-decoration:none;font-size:15px}.site .faq:hover{color:var(--ink)}
+body.pub{background:var(--surface)}.wrap.wide{max-width:1200px}.narrow{max-width:780px}
+.hero2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;min-height:440px}
+.hero2 .txt{position:relative;z-index:1;padding:36px 0}
+.hero2 h1{white-space:nowrap;font-size:clamp(34px,5vw,60px);line-height:1.05;margin:0 0 18px;letter-spacing:-.03em;font-weight:700}.hero2 h1 em{font-style:normal;color:var(--accent)}
+.hero2 .sub{font-size:19px;color:var(--mute);margin:0 0 28px;max-width:520px}
+.hero2 .lk{max-width:560px}.hero2 .lk input{padding:16px 16px 16px 50px;border-radius:12px;font-size:16px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%235E6B82' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center}
+.hero2 .lk .btn{padding:0 30px;border-radius:12px;font-size:17px}.hero2 .err{margin:10px 0 0;font-size:15px}
+.hero2 img{width:130%;margin-left:-30%;height:100%;max-height:520px;object-fit:cover;object-position:left center;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 32%),linear-gradient(to bottom,transparent 0,#000 14%,#000 82%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 32%),linear-gradient(to bottom,transparent 0,#000 14%,#000 82%,transparent 100%);mask-composite:intersect}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);margin:30px 0 10px}
+.feat div{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:12px 22px;border-left:1px solid var(--line);color:var(--accent)}
+.feat div:first-child{border-left:0}.feat span{color:var(--ink);font-size:18px;font-weight:600;line-height:1.3}
 .card h2{margin:0 0 6px;font-size:17px}.card p{margin:0}
 body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%}
 .sitefoot{border-top:1px solid var(--line);background:var(--surface)}
-.sitefoot>div{max-width:1050px;margin:0 auto;padding:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;color:var(--mute);font-size:13px}.sitefoot a{color:var(--mute);font-weight:500}
-@media(max-width:560px){.hero h1{font-size:25px}.site span{display:none}}
+.sitefoot>div{max-width:1200px;margin:0 auto;padding:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;color:var(--mute);font-size:13px}.sitefoot a{color:var(--mute);font-weight:500}
+@media(max-width:760px){.hero2{grid-template-columns:1fr;min-height:0}.hero2 h1{white-space:normal}.hero2 .lk .btn{padding:0 18px}.hero2 .lk input{padding-left:42px;font-size:15px;background-position:14px center}.hero2 img{width:100%;margin:0;max-height:240px}.cube{width:30px;height:33px}.site b{font-size:26px}.feat{grid-template-columns:1fr}.feat div{border-left:0;border-top:1px solid var(--line)}.feat div:first-child{border-top:0}}
 .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="site" id="site"><div><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><b>carga<i>.pe</i></b><span>Seguimiento de envíos</span></div></header>
+<header class="site" id="site"><div><a class="brandlink" href="#" aria-label="carga.pe, inicio"><svg class="cube" viewBox="0 0 48 52" aria-hidden="true"><polygon class="t" points="24,2 44,13 24,24 4,13"/><polygon class="l" points="4,13 24,24 24,50 4,39"/><polygon class="r" points="44,13 24,24 24,50 44,39"/></svg><b>carga<i>.pe</i></b></a><a class="faq" href="#preguntas">Preguntas frecuentes</a></div></header>
 <div class="wrap">
 <div class="brand"><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><div><b id="bn">carga.pe Business</b><span id="sub">Pantalla de control</span></div></div>
 <nav role="tablist" id="tabs">
@@ -92,9 +104,9 @@ body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%
   <button role="tab" data-t="i" aria-selected="false">Inventarios</button>
   <button data-a="out" style="margin-left:auto">Salir</button>
 </nav>
-<main id="main"><section class="hero"><h1>Rastrea tu envío</h1><p class="mute">Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.</p></section></main>
+<main id="main"><h1>Rastrea tu envío</h1><p>Ingresa el código de seguimiento y conoce el estado de tu carga en tiempo real.</p></main>
 </div>
-<footer class="sitefoot" id="sfoot"><div><span>© carga.pe · Servicio de Grupo Logix S.A.C.</span><a href="#admin">Acceso de administración</a></div></footer>
+<footer class="sitefoot" id="sfoot"><div><span>© carga.pe · Servicio de Isiter Perú</span><a href="#admin">Acceso de administración</a></div></footer>
 <dialog id="dlg"><form id="frm"><h3 id="dt"></h3><div class="grid" id="df"></div><p class="err" id="err" role="alert"></p><div class="foot"><button type="button" class="btn sec" id="cx">Cancelar</button><button class="btn">Guardar</button></div></form></dialog>
 
 <dialog id="cdlg"><form method="dialog" id="cfrm"><h3>Eliminar orden</h3><p id="cmsg"></p><div class="foot"><button type="button" class="btn sec" id="ccx">Cancelar</button><button class="btn danger">Eliminar</button></div></form></dialog>
@@ -138,11 +150,22 @@ function vI(){
 }
 const EMPRESA='Isiter Perú';
 function vHome(){
-  return `<section class="hero"><h1>Rastrea tu envío</h1><p class="mute">Ingresa el código de seguimiento que te enviaron y consulta en qué etapa está tu carga, sin necesidad de llamar.</p>
-  <form id="sf" class="lk"><input id="sq" placeholder="Tu código de seguimiento" autocomplete="off" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form><p class="err" id="se" role="alert" style="margin:6px 0 0"></p></section>
-  <div class="card"><h2>¿Dónde encuentro mi código?</h2><p class="mute">Quien gestiona tu carga te lo envía junto con un enlace de seguimiento. Si abres ese enlace, verás tu envío directamente. Si no lo tienes, pídeselo.</p></div>
-  <div class="card"><h2>Etapas de tu envío</h2><p class="mute">Tu carga pasa por estas etapas hasta llegar a destino.</p><ol class="steps" aria-label="Etapas">${EST.map(e=>`<li>${e}</li>`).join('')}</ol></div>
-`;
+  const ic=p=>`<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+  return `<section class="hero2"><div class="txt"><h1>Rastrea tu <em>envío</em></h1><p class="sub">Ingresa el código de seguimiento y conoce el estado de tu carga en tiempo real.</p>
+  <form id="sf" class="lk"><input id="sq" placeholder="Código de seguimiento" autocomplete="off" aria-label="Código de seguimiento" required><button class="btn">Buscar</button></form><p class="err" id="se" role="alert"></p></div>
+  <img src="hero.jpg" alt="Camión de carga circulando por una carretera" width="827" height="508"></section>
+  <section class="feat">
+  <div>${ic('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>')}<span>Seguimiento en tiempo real</span></div>
+  <div>${ic('<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>')}<span>Tu carga segura</span></div>
+  <div>${ic('<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>')}<span>A través de las principales agencias de transporte</span></div>
+  </section>`;
+}
+function vFaq(){
+  const q=[['¿Dónde encuentro mi código de seguimiento?','Quien gestiona tu carga te lo envía junto con un enlace de seguimiento. Si abres ese enlace, verás tu envío directamente.'],
+  ['¿Qué significan las etapas del envío?','Tu carga pasa por: Cotizado, En origen, En tránsito, En destino y Entregado. En el seguimiento verás en cuál está.'],
+  ['Mi código no funciona, ¿qué hago?','Revisa que lo hayas copiado completo, sin espacios ni caracteres de más. Si sigue sin funcionar, pídele a quien gestiona tu carga que te lo envíe de nuevo.'],
+  ['¿Otras personas pueden ver mi información?','Solo quien tiene tu código o tu enlace puede ver tu envío, y únicamente ese envío. No se muestran otras órdenes.']];
+  return `<p><a href="#">← Volver al inicio</a></p><h1 style="margin:6px 0 14px;font-size:30px">Preguntas frecuentes</h1>${q.map(([a,b])=>`<div class="card"><h2>${a}</h2><p class="mute">${b}</p></div>`).join('')}`;
 }
 const link=o=>location.href.split('#')[0]+'#seg-'+o.token;
 const peso=o=>typeof o.peso==='number'?o.peso.toLocaleString('es-PE')+' kg':'—';
@@ -165,15 +188,16 @@ function vC(t){
 const vLogin=()=>`<div class="card" style="max-width:380px;margin:30px auto"><h2 style="margin:0 0 10px">Acceso de administración</h2><form id="lf"><label>Correo<input name="email" type="email" required autocomplete="username"></label><label style="margin-top:10px">Contraseña<input name="pw" type="password" required autocomplete="current-password"></label><p class="err" id="le" role="alert"></p><button class="btn">Entrar</button></form></div><p><a href="#">← Volver</a></p>`;
 async function render(){
   document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
-  const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',pub=!ad&&!mo;
+  const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',fq=h==='preguntas',pub=!ad&&!mo;
   $('#tabs').style.display=ad&&user?'':'none';
   $('#site').style.display=pub?'':'none';
   $('#sfoot').style.display=pub?'':'none';
+  document.body.classList.toggle('pub',pub);$('.wrap').classList.toggle('wide',pub);$('#main').className=pub&&(mc||fq)?'narrow':'';
   $('.brand').style.display=pub?'none':'';
-  document.title=pub?(mc?'Seguimiento de tu envío · carga.pe':'Rastrea tu envío · carga.pe'):'carga.pe Business';
+  document.title=pub?(mc?'Seguimiento de tu envío · carga.pe':fq?'Preguntas frecuentes · carga.pe':'Rastrea tu envío · carga.pe'):'carga.pe Business';
   if(!mc)SEG.t=null;
   if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
-  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():vI()):vHome();
+  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():vI()):fq?vFaq():vHome();
 }
 
 const lv=v=>!v?'':LUG.includes(v)?v:'Otros';
