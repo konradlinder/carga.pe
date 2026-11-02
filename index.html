@@ -55,7 +55,13 @@ dialog form{padding:18px 20px}
 dialog h3{margin:0 0 14px;font-size:19px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid .full{grid-column:1/-1}
 label{display:block;font-size:13px;font-weight:600;color:var(--mute)}
-input,select{display:block;width:100%;margin-top:3px;padding:8px 10px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px}
+input,select,textarea{display:block;width:100%;margin-top:3px;padding:8px 10px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px}
+textarea{min-height:76px;resize:vertical}
+.cf{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cf .full{grid-column:1/-1}
+.sw{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.sw1{position:relative;display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:14px;color:var(--ink);margin:0}
+.sw1 input{position:absolute;opacity:0;width:1px;height:1px;margin:0}.sw1 i{width:22px;height:22px;border-radius:50%;display:inline-block}
+.sw1:has(input:checked){border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}.sw1:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:560px){.cf{grid-template-columns:1fr}}
 .err{color:#C03030;font-weight:600;min-height:20px;margin:10px 0 0}
 a{color:var(--accent);font-weight:600}
 .mute{color:var(--mute)}
@@ -102,6 +108,7 @@ body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%
 <nav role="tablist" id="tabs">
   <button role="tab" data-t="o" aria-selected="true">Órdenes</button>
   <button role="tab" data-t="i" aria-selected="false">Inventarios</button>
+  <button role="tab" data-t="c" aria-selected="false">Mi cuenta</button>
   <button data-a="out" style="margin-left:auto">Salir</button>
 </nav>
 <main id="main"><h1>Rastrea tu envío</h1><p>Ingresa el código de seguimiento y conoce el estado de tu carga en tiempo real.</p></main>
@@ -116,13 +123,26 @@ const $=s=>document.querySelector(s);
 const LUG=['Lima','Cusco','Arequipa','Otros'],ALM=['Lima','Cusco','Arequipa'],EST=['Cotizado','En origen','En tránsito','En destino','Entregado'],CON=['Por cobrar','Cobrado'];
 const today=()=>new Date().toISOString().slice(0,10);
 const fd=d=>d?d.split('-').reverse().join('/'):'';
+const TEMAS={azul:['Azul','#1d4ed8'],verde:['Verde','#047857'],naranja:['Naranja','#c2410c'],violeta:['Violeta','#6d28d9'],grafito:['Grafito','#334155']};
+function vCuenta(){
+  const a=S.ag;
+  if(!a)return `<div class="card"><h2 style="margin:0 0 6px">Mi cuenta</h2><p class="mute" style="margin:0">No se encontró tu agencia. Ejecuta <b>agencias.sql</b> en Supabase y recarga.</p></div>`;
+  const f=(k,l,c='')=>`<label class="${c}">${l}<input name="${k}" value="${esc(a[k])}"></label>`;
+  return `<form id="cf"><div class="card"><h2 style="margin:0 0 4px">Mi cuenta</h2><p class="mute" style="margin:0 0 14px">Estos datos se muestran en tu página pública.</p>
+  <div class="cf">${f('nombre','Nombre de la agencia *','full')}${f('titulo','Título de la portada (encierra una palabra entre *asteriscos* para resaltarla)','full')}
+  <label class="full">Texto debajo del título<textarea name="bajada">${esc(a.bajada)}</textarea></label>
+  ${f('whatsapp','WhatsApp (con código de país, ej. 51999999999)')}${f('telefono','Teléfono')}${f('email','Correo')}${f('horario','Horario')}${f('direccion','Dirección','full')}</div></div>
+  <div class="card"><h2 style="margin:0">Tema de colores</h2><div class="sw">${Object.entries(TEMAS).map(([k,[n,c]])=>`<label class="sw1"><input type="radio" name="tema" value="${k}" ${(a.tema||'azul')===k?'checked':''}><i style="background:${c}"></i>${n}</label>`).join('')}</div></div>
+  <button class="btn">Guardar cambios</button> <a class="btn sec" href="agencia-ejemplo.html?a=${encodeURIComponent(a.slug)}" target="_blank" rel="noopener">Ver mi página</a>
+  <p id="cm" class="mute" role="status" style="margin:10px 0 0"></p></form>`;
+}
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase =====
 const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S={o:[]},user=null,SEG={t:null,o:null},tab='o',alm='Lima';
 const fromDb=r=>({num:r.num,id:'ORD-'+String(r.num).padStart(4,'0'),fecha:r.fecha,fe:r.fe,cliente:r.cliente,origen:r.origen,destino:r.destino,desc:r.mercancia,bultos:r.bultos,peso:r.peso==null?null:+r.peso,estado:r.estado,cond:r.cond,token:r.token});
-async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb)}
+async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);const r=await db.from('agencias').select('*').order('id').limit(1);S.ag=r.data&&r.data[0]||null}
 
 function vO(){
   let h=`<div class="bar"><h2>Órdenes</h2><button class="btn" data-a="no">Nueva orden</button></div>`;
@@ -197,7 +217,7 @@ async function render(){
   document.title=pub?(mc?'Seguimiento de tu envío · carga.pe':fq?'Preguntas frecuentes · carga.pe':'Rastrea tu envío · carga.pe'):'carga.pe Business';
   if(!mc)SEG.t=null;
   if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
-  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():vI()):fq?vFaq():vHome();
+  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():tab==='i'?vI():vCuenta()):fq?vFaq():vHome();
 }
 
 const lv=v=>!v?'':LUG.includes(v)?v:'Otros';
@@ -254,6 +274,10 @@ document.addEventListener('change',async e=>{
   const oo=S.o[+t.dataset.i],k=t.dataset.a==='es'?'estado':'cond',p={[k]:t.value};if(k==='estado')p.fe=today();const{error}=await db.from('ordenes').update(p).eq('num',oo.num);if(error)alert(error.message);await load();render();
 });
 document.addEventListener('submit',async e=>{
+  if(e.target.id==='cf'){e.preventDefault();const f=Object.fromEntries(new FormData(e.target)),row={};for(const k of ['nombre','titulo','bajada','telefono','email','direccion','horario'])row[k]=(f[k]||'').trim()||null;row.whatsapp=(f.whatsapp||'').replace(/\D/g,'')||null;row.tema=f.tema||'azul';
+    if(!row.nombre){$('#cm').textContent='El nombre de la agencia es obligatorio.';return}
+    const{data,error}=await db.from('agencias').update(row).eq('id',S.ag.id).select();
+    if(error)$('#cm').textContent='No se pudo guardar: '+error.message;else if(!data.length)$('#cm').textContent='No se guardó: falta el permiso. Ejecuta migracion-mi-cuenta.sql en Supabase.';else{Object.assign(S.ag,row);$('#cm').textContent='Cambios guardados ✓'}}
   if(e.target.id==='sf'){e.preventDefault();const q=$('#sq').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!q){$('#se').textContent='Ingresa tu código de seguimiento.';return}location.hash='seg-'+q}
   if(e.target.id==='lf'){e.preventDefault();const f=new FormData(e.target);const{data,error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('pw')});if(error){$('#le').textContent='Correo o contraseña incorrectos.';return}user=data.user;await load();render()}
 });

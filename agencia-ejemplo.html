@@ -61,10 +61,11 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 <section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#">Escribir por WhatsApp</a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
 </main>
 <footer><div class="w"><span id="ft"></span><span>Seguimiento de envíos por <a href="index.html"><b>carga.pe</b></a></span></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 // ===== DATOS DE LA AGENCIA (más adelante vendrán de Supabase) =====
 const A={nombre:'Andes Cargo Express',inicial:'A',
- titulo:'Tu carga, de Lima a todo el <em>Perú</em>',
+ titulo:'Tu carga, de Lima a todo el *Perú*',
  bajada:'Transporte terrestre de carga con recojo a domicilio, salidas diarias y seguimiento de tu envío en cada etapa.',
  whatsapp:'51999999999',telefono:'+51 999 999 999',email:'ventas@ejemplo.pe',
  direccion:'Av. Ejemplo 123, Lima',horario:'Lunes a sábado · 8:00 a 18:00',
@@ -80,18 +81,35 @@ layers:'<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.9
 clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
 box:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
 shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
+const TEMAS={azul:['#1d4ed8','#6e9bff','#f3f6fc'],verde:['#047857','#34d399','#f1f8f5'],naranja:['#c2410c','#fb923c','#fdf5f0'],violeta:['#6d28d9','#a78bfa','#f6f3fd'],grafito:['#334155','#cbd5e1','#f3f4f6']};
+function aplicarTema(k){const t=TEMAS[k];if(!t)return;const d=matchMedia('(prefers-color-scheme: dark)').matches,r=document.documentElement.style;r.setProperty('--accent',d?t[1]:t[0]);if(!d)r.setProperty('--soft',t[2])}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function pintar(){
 document.title=A.nombre+' · Agencia de carga · carga.pe';
-$('#lg').innerHTML=`<span class="mk">${A.inicial}</span>${A.nombre}`;
-$('#h1').innerHTML=A.titulo;$('#hp').textContent=A.bajada;
+$('#lg').innerHTML=`<span class="mk">${esc(A.nombre[0].toUpperCase())}</span>${esc(A.nombre)}`;
+$('#h1').innerHTML=esc(A.titulo).replace(/\*(.+?)\*/g,'<em>$1</em>');$('#hp').textContent=A.bajada;
 $('#tru').innerHTML=A.garantias.map(g=>`<li>${g}</li>`).join('');
 $('#hw').href=$('#hc').href=$('#cc').href=wa(`Hola ${A.nombre}, quisiera cotizar un envío.`);
 $('#sv').innerHTML=A.servicios.map(s=>`<div class="c"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[s[0]]}</svg><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join('');
 $('#rt').innerHTML=A.rutas.map(r=>`<div class="c rt">${r[0]} <i>→</i> ${r[1]}</div>`).join('');
 $('#pa').innerHTML=A.pasos.map(p=>`<div class="c"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('');
 $('#fq').innerHTML=A.faq.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
-$('#dl').innerHTML=[['Teléfono / WhatsApp',A.telefono],['Correo',A.email],['Dirección',A.direccion],['Horario',A.horario]].map(d=>`<div><dt>${d[0]}</dt><dd>${d[1]}</dd></div>`).join('');
+$('#dl').innerHTML=[['Teléfono / WhatsApp',A.telefono],['Correo',A.email],['Dirección',A.direccion],['Horario',A.horario]].map(d=>`<div><dt>${d[0]}</dt><dd>${esc(d[1])}</dd></div>`).join('');
 $('#ft').textContent='© '+new Date().getFullYear()+' '+A.nombre;
 $('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(c)location.href='index.html#seg-'+c};
+}
+// ===== DATOS EDITABLES DESDE SUPABASE (tabla "agencias") =====
+const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
+(async()=>{
+  try{
+    const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const slug=new URLSearchParams(location.search).get('a')||'andes-cargo';
+    const{data}=await db.from('agencias').select('*').eq('slug',slug).eq('activa',true).maybeSingle();
+    if(data)for(const k of ['nombre','titulo','bajada','whatsapp','telefono','email','direccion','horario'])if(data[k])A[k]=k==='whatsapp'?String(data[k]).replace(/\D/g,''):data[k];
+    if(data)aplicarTema(data.tema);
+  }catch(e){}
+  pintar();
+})();
 </script>
 </body>
 </html>
