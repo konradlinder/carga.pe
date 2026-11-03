@@ -6,7 +6,7 @@
 <title>carga.pe</title>
 <meta name="description" content="Envíos de carga por tierra a todo el Perú. Cotiza tu envío y rastréalo con carga.pe.">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" id="fav">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -78,7 +78,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 <section id="servicios" data-b="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3 g4" id="sv"></div></div></section>
 <section class="s" id="rutas" data-b="rutas"><div class="w"><h2>Cobertura y rutas</h2><p class="sub">Salidas regulares desde nuestros almacenes.</p><div class="g3 r2" id="rt"></div></div></section>
 <section id="pasos" data-b="pasos"><div class="w"><h2>Cómo funciona</h2><p class="sub">Así trabajamos, con seguimiento en cada etapa.</p><div class="g3 pa" id="pa"></div></div></section>
-<section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento y mira en qué etapa está.</p></div><form id="tf" autocomplete="off"><input id="tc" placeholder="Código de seguimiento" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div><div id="rs" role="status" aria-live="polite"></div></div></section>
+<section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento y mira en qué etapa está.</p></div><form id="tf" autocomplete="off"><input id="tc" placeholder="Código (ej. A1B23C)" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div><div id="rs" role="status" aria-live="polite"></div></div></section>
 <section class="s" id="faq" data-b="faq"><div class="w" style="max-width:780px"><h2>Preguntas frecuentes</h2><div id="fq" style="margin-top:20px"></div></div></section>
 <section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Contactar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
 </main>
@@ -95,12 +95,20 @@ box:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-
 shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
 const ICN=['layers','clock','pin','box','truck','shield'];
 const TEMAS={azul:['#1d4ed8','#6e9bff','#f3f6fc'],verde:['#047857','#34d399','#f1f8f5'],naranja:['#c2410c','#fb923c','#fdf5f0'],violeta:['#6d28d9','#a78bfa','#f6f3fd'],grafito:['#334155','#cbd5e1','#f3f4f6']};
-function aplicarTema(k){const t=TEMAS[k];if(!t)return;const d=matchMedia('(prefers-color-scheme: dark)').matches,r=document.documentElement.style;r.setProperty('--accent',d?t[1]:t[0]);if(!d)r.setProperty('--soft',t[2])}
+function mezcla(h,c,p){const n=parseInt(h.slice(1),16),r=[n>>16&255,n>>8&255,n&255].map(v=>Math.round(v+(c-v)*p));return '#'+r.map(v=>v.toString(16).padStart(2,'0')).join('')}
+function favicon(c){try{const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 52 52"><polygon fill="${mezcla(c,255,.35)}" points="24,2 44,13 24,24 4,13"/><polygon fill="${c}" points="4,13 24,24 24,50 4,39"/><polygon fill="${mezcla(c,0,.4)}" points="44,13 24,24 24,50 44,39"/></svg>`;$('#fav').href='data:image/svg+xml,'+encodeURIComponent(svg)}catch(e){}}
+function aplicarTema(k){const t=TEMAS[k];if(!t)return;favicon(t[0]);const d=matchMedia('(prefers-color-scheme: dark)').matches,r=document.documentElement.style;r.setProperty('--accent',d?t[1]:t[0]);if(!d)r.setProperty('--soft',t[2])}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function favicon(){
+  const t=TEMAS[A.tema]||TEMAS.azul,ini=String(A.nombre||'C')[0].toUpperCase().replace(/[<>&]/g,'');
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${t[0]}"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="38" fill="#fff">${ini}</text></svg>`;
+  let l=document.querySelector('link[rel=icon]');if(!l){l=document.createElement('link');l.rel='icon';document.head.appendChild(l)}
+  l.type='image/svg+xml';l.href='data:image/svg+xml,'+encodeURIComponent(svg);
+}
 function pintar(){
 const arr=k=>Array.isArray(A[k])?A[k].filter(x=>x&&(Array.isArray(x)?x[0]:x)):[];
 A.nombre=A.nombre||'Agencia';A.garantias=arr('garantias');A.servicios=arr('servicios');A.rutas=arr('rutas').filter(r=>r[1]);A.pasos=arr('pasos');A.faq=arr('faq');
-document.title=A.nombre+' · Agencia de carga · carga.pe';
+document.title=A.nombre+' · Agencia de carga · carga.pe';favicon();
 const d=document.querySelector('meta[name=description]');if(d)d.content=(A.bajada||'Envíos de carga por tierra a todo el Perú.')+' Rastrea tu envío con carga.pe.';
 $('#lg').innerHTML=`<span class="mk">${esc(A.nombre[0].toUpperCase())}</span>${esc(A.nombre)}`;
 $('#h1').innerHTML=esc(A.titulo||A.nombre).replace(/\*(.+?)\*/g,'<em>$1</em>');$('#hp').textContent=A.bajada||'';$('#hp').hidden=!A.bajada;
