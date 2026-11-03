@@ -59,6 +59,11 @@ summary{transition:color .15s}summary:hover{color:var(--accent)}details p{animat
 .steps{list-style:none;display:flex;gap:4px;padding:0;margin:18px 0 6px}.steps li{flex:1 1 0;min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:600;color:var(--mute);border-top:4px solid var(--line);padding-top:6px}.steps li.done{border-color:var(--accent);color:var(--ink)}.steps li.now{border-color:var(--accent);color:var(--accent)}
 .rs dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:16px 0 0}.rs dt{color:var(--mute);font-size:14px}.rs dd{margin:0;font-weight:500}.rs .x{background:none;border:0;color:var(--mute);font:inherit;cursor:pointer;text-decoration:underline;padding:0;margin-top:14px}
 @media(max-width:560px){.steps li{font-size:11.5px}}
+.mp{display:block;padding:0;border-style:solid;overflow:hidden;min-height:0;text-align:left}
+.mp .lc{display:flex;flex-wrap:wrap;gap:8px;padding:12px 12px 0}.mp .lc button{font:600 14px "Public Sans",sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;transition:background-color .18s,color .18s,border-color .18s,transform .18s}
+.mp .lc button:hover{border-color:var(--accent);color:var(--accent)}.mp .lc button:active{transform:scale(.96)}.mp .lc button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mp iframe{display:block;width:100%;height:300px;border:0;margin-top:12px;background:var(--soft)}
+.mp .ld{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;padding:12px 16px;font-size:14px}.mp .ld span{color:var(--mute)}.mp .ld a{font-weight:600;color:var(--accent);text-decoration:none}.mp .ld a:hover{text-decoration:underline}
 @keyframes up{from{opacity:0;transform:translateY(18px)}}
 .rv:not(.in){opacity:0}.rv.in{animation:up .6s ease backwards;animation-delay:var(--d,0ms)}
 body.listo .hero h1{animation:up .7s ease backwards}body.listo .hero p{animation:up .7s .12s ease backwards}body.listo .cta{animation:up .7s .24s ease backwards}body.listo .trust{animation:up .7s .36s ease backwards}
@@ -80,7 +85,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 <section id="pasos" data-b="pasos"><div class="w"><h2>Cómo funciona</h2><p class="sub">Así trabajamos, con seguimiento en cada etapa.</p><div class="g3 pa" id="pa"></div></div></section>
 <section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento y mira en qué etapa está.</p></div><form id="tf" autocomplete="off"><input id="tc" placeholder="Código (ej. A1B23C)" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div><div id="rs" role="status" aria-live="polite"></div></div></section>
 <section class="s" id="faq" data-b="faq"><div class="w" style="max-width:780px"><h2>Preguntas frecuentes</h2><div id="fq" style="margin-top:20px"></div></div></section>
-<section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Contactar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
+<section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Contactar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></p></div><div class="mp" id="mp"></div></div></section>
 </main>
 <footer><div class="w"><span id="ft"></span><span>Seguimiento de envíos por <a href="/"><b>carga.pe</b></a></span></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -107,7 +112,7 @@ function favicon(){
 }
 function pintar(){
 const arr=k=>Array.isArray(A[k])?A[k].filter(x=>x&&(Array.isArray(x)?x[0]:x)):[];
-A.nombre=A.nombre||'Agencia';A.garantias=arr('garantias');A.servicios=arr('servicios');A.rutas=arr('rutas').filter(r=>r[1]);A.pasos=arr('pasos');A.faq=arr('faq');
+A.nombre=A.nombre||'Agencia';A.ubicaciones=arr('ubicaciones');A.garantias=arr('garantias');A.servicios=arr('servicios');A.rutas=arr('rutas').filter(r=>r[1]);A.pasos=arr('pasos');A.faq=arr('faq');
 document.title=A.nombre+' · Agencia de carga · carga.pe';favicon();
 const d=document.querySelector('meta[name=description]');if(d)d.content=(A.bajada||'Envíos de carga por tierra a todo el Perú.')+' Rastrea tu envío con carga.pe.';
 $('#lg').innerHTML=`<span class="mk">${esc(A.nombre[0].toUpperCase())}</span>${esc(A.nombre)}`;
@@ -121,7 +126,14 @@ $('#pa').innerHTML=A.pasos.map(p=>`<div class="c"><h3>${esc(p[0])}</h3><p>${esc(
 $('#fq').innerHTML=A.faq.map(f=>`<details><summary>${esc(f[0])}</summary><p>${esc(f[1]||'')}</p></details>`).join('');
 const tel=A.telefono?`<a href="tel:${esc(String(A.telefono).replace(/[^+\d]/g,''))}">${esc(A.telefono)}</a>`:'';
 $('#dl').innerHTML=[['Teléfono / WhatsApp',tel||(w?esc('+'+w):'')],['Correo',A.email?`<a href="mailto:${esc(A.email)}">${esc(A.email)}</a>`:''],['Dirección',esc(A.direccion||'')],['Horarios',esc(A.horario||'')]].filter(x=>x[1]).map(d=>`<div><dt>${d[0]}</dt><dd>${d[1]}</dd></div>`).join('');
-$('.ct .mp').hidden=true;$('.ct').style.gridTemplateColumns='1fr';
+let locs=arr('ubicaciones').filter(u=>u[0]&&(u[1]||'').trim()).map(u=>[u[0],u[1]]);
+if(!locs.length&&A.direccion)locs=[[A.nombre,A.direccion]];
+const mp=$('#mp');mp.hidden=!locs.length;$('.ct').style.gridTemplateColumns=locs.length?'':'1fr';
+if(locs.length){
+  const dr=i=>{const u=locs[i],q=encodeURIComponent(u[1]);
+    mp.innerHTML=(locs.length>1?`<div class="lc">${locs.map((l,j)=>`<button type="button" data-l="${j}" aria-pressed="${j===i}">${esc(l[0])}</button>`).join('')}</div>`:'')+`<iframe title="Mapa: ${esc(u[0])}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${q}&z=15&output=embed"></iframe><div class="ld"><span>${esc(u[1])}</span><a href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener">Cómo llegar ↗</a></div>`};
+  dr(0);mp.onclick=e=>{const b=e.target.closest('[data-l]');if(b)dr(+b.dataset.l)};
+}
 const vis={servicios:A.servicios.length,rutas:A.rutas.length,pasos:A.pasos.length,faq:A.faq.length};
 $$('[data-b]').forEach(e=>e.hidden=!vis[e.dataset.b]);$$('nav [data-s]').forEach(e=>e.hidden=!vis[e.dataset.s]);
 $('#tru').hidden=!A.garantias.length;
