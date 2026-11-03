@@ -12,6 +12,7 @@
 :root{--bg:#fff;--soft:#f3f6fc;--ink:#0f1b3d;--mute:#5b667d;--line:#e3e8f0;--accent:#1d4ed8;--accent-ink:#fff;--shadow:0 10px 30px rgba(15,27,61,.10)}
 @media(prefers-color-scheme:dark){:root{--bg:#0e1424;--soft:#141b30;--ink:#eef2fb;--mute:#9aa6c0;--line:#27304a;--accent:#6e9bff;--accent-ink:#0e1424;--shadow:0 10px 30px rgba(0,0,0,.4)}}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+html{background:var(--bg)}body{visibility:hidden}body.listo{visibility:visible}
 body{margin:0;font:16px/1.55 "Public Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
 a{color:inherit}.w{max-width:1160px;margin:0 auto;padding:0 20px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:600 16px "Public Sans",sans-serif;padding:14px 24px;cursor:pointer;text-decoration:none}
@@ -47,10 +48,11 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 @media(max-width:860px){nav{display:none}.hero{background:linear-gradient(180deg,var(--bg) 55%,transparent),url(hero.jpg) center bottom/100% auto no-repeat var(--bg);padding:44px 0 260px}
 .pa{grid-template-columns:1fr 1fr}.g3,.g3.r2{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}}
 </style>
+<noscript><style>body{visibility:visible!important}</style></noscript>
 </head>
 <body>
 <div class="ej">Página de ejemplo · los datos de esta agencia son ficticios</div>
-<header><div class="w"><a class="lg" href="#" id="lg"></a><nav><a href="#servicios">Servicios</a><a href="#rutas">Cobertura y rutas</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav><a class="btn" id="hw" href="#" target="_blank" rel="noopener">Cotizar</a></div></header>
+<header><div class="w"><a class="lg" href="#" id="lg"></a><nav><a href="#servicios">Servicios</a><a href="#rutas">Cobertura</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav><a class="btn" id="hw" href="#" target="_blank" rel="noopener">Cotizar</a></div></header>
 <main>
 <section class="hero"><div class="w"><h1 id="h1"></h1><p id="hp"></p><div class="cta"><a class="btn" id="hc" href="#" target="_blank" rel="noopener">Cotizar por WhatsApp</a><a class="btn o" href="#rastreo">Rastrear mi envío</a></div><ul class="trust" id="tru"></ul></div></section>
 <section id="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3" id="sv"></div></div></section>
@@ -100,6 +102,7 @@ $('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCa
 }
 // ===== DATOS EDITABLES DESDE SUPABASE (tabla "agencias") =====
 const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
+const fallo=setTimeout(()=>{pintar();document.body.classList.add("listo")},3000); // si Supabase tarda, muestra los datos de ejemplo
 (async()=>{
   try{
     const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -108,7 +111,7 @@ const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJh
     if(data)for(const k of ['nombre','titulo','bajada','whatsapp','telefono','email','direccion','horario'])if(data[k])A[k]=k==='whatsapp'?String(data[k]).replace(/\D/g,''):data[k];
     if(data)aplicarTema(data.tema);
   }catch(e){}
-  pintar();
+  clearTimeout(fallo);pintar();document.body.classList.add("listo");
 })();
 </script>
 </body>
