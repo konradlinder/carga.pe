@@ -8,6 +8,22 @@
 <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Rastrea tu envío de carga con carga.pe. Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.">
+<link rel="canonical" href="https://carga.pe/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta property="og:site_name" content="carga.pe">
+<meta property="og:title" content="Rastrea tu envío · carga.pe">
+<meta property="og:description" content="Ingresa tu código de seguimiento y consulta en qué etapa está tu carga.">
+<meta property="og:url" content="https://carga.pe/">
+<meta property="og:image" content="https://carga.pe/og-image.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"carga.pe","url":"https://carga.pe/"}</script>
+<link rel="canonical" href="https://carga.pe/">
+<meta property="og:type" content="website"><meta property="og:locale" content="es_PE"><meta property="og:site_name" content="carga.pe">
+<meta property="og:title" content="Rastrea tu envío · carga.pe"><meta property="og:description" content="Ingresa tu código de seguimiento y conoce el estado de tu carga.">
+<meta property="og:url" content="https://carga.pe/"><meta property="og:image" content="https://carga.pe/hero.jpg"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "name": "carga.pe", "url": "https://carga.pe/", "inLanguage": "es-PE"}, {"@type": "Organization", "name": "carga.pe", "url": "https://carga.pe/", "logo": "https://carga.pe/favicon.png"}]}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
 :root{--bg:#F1F3F7;--surface:#fff;--ink:#14213D;--mute:#5E6B82;--line:#D9DEE8;--accent:#1D4ED8;--accent-ink:#fff;--ok-bg:#D9F2E6;--ok:#13694A;--warn-bg:#FFF0D1;--warn:#8F5600;--info-bg:#DDE7FB;--info:#1E3F96;
@@ -128,12 +144,12 @@ function vCuenta(){
   const a=S.ag;
   if(!a)return `<div class="card"><h2 style="margin:0 0 6px">Mi cuenta</h2><p class="mute" style="margin:0">No se encontró tu agencia. Ejecuta <b>agencias.sql</b> en Supabase y recarga.</p></div>`;
   const f=(k,l,c='')=>`<label class="${c}">${l}<input name="${k}" value="${esc(a[k])}"></label>`;
-  return `<form id="cf"><div class="card"><h2 style="margin:0 0 4px">Mi cuenta</h2><p class="mute" style="margin:0 0 14px">Estos datos se muestran en tu página pública.</p>
+  return `<form id="cf"><div class="card"><h2 style="margin:0 0 4px">Mi cuenta</h2><p class="mute" style="margin:0 0 14px">Estos datos son privados por ahora: la página pública de tu agencia todavía no está publicada.</p>
   <div class="cf">${f('nombre','Nombre de la agencia *','full')}${f('titulo','Título de la portada (encierra una palabra entre *asteriscos* para resaltarla)','full')}
   <label class="full">Texto debajo del título<textarea name="bajada">${esc(a.bajada)}</textarea></label>
   ${f('whatsapp','WhatsApp (con código de país, ej. 51999999999)')}${f('telefono','Teléfono')}${f('email','Correo')}${f('horario','Horario')}${f('direccion','Dirección','full')}</div></div>
   <div class="card"><h2 style="margin:0">Tema de colores</h2><div class="sw">${Object.entries(TEMAS).map(([k,[n,c]])=>`<label class="sw1"><input type="radio" name="tema" value="${k}" ${(a.tema||'azul')===k?'checked':''}><i style="background:${c}"></i>${n}</label>`).join('')}</div></div>
-  <button class="btn">Guardar cambios</button> <a class="btn sec" href="agencia-ejemplo.html?a=${encodeURIComponent(a.slug)}" target="_blank" rel="noopener">Ver mi página</a>
+  <button class="btn">Guardar cambios</button>
   <p id="cm" class="mute" role="status" style="margin:10px 0 0"></p></form>`;
 }
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://carga.pe/sitemap.xml
