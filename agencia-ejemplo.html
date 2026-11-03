@@ -32,11 +32,12 @@ nav{margin-left:auto;display:flex;gap:22px}nav a{color:var(--mute);text-decorati
 section{padding:60px 0}section.s{background:var(--soft)}
 h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em;line-height:1.15;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 30px;max-width:600px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.c{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:24px}
-.c svg,.ic{width:30px;height:30px;color:var(--accent);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.c{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:20px}
+.c svg,.ic{width:28px;height:28px;color:var(--accent);fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
 .c h3{margin:0 0 6px;font-size:18px}.c p{margin:0;color:var(--mute);font-size:15px}
-.rt{display:flex;align-items:center;gap:12px;padding:16px 20px;font-weight:600}.rt i{font-style:normal;color:var(--accent)}.g3.r2{grid-template-columns:repeat(2,1fr)}
-.pa{counter-reset:p}.pa .c{position:relative;padding-top:52px}.pa .c:before{counter-increment:p;content:counter(p);position:absolute;top:18px;left:24px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.rt{display:flex;align-items:center;gap:12px;padding:16px 20px;font-weight:600}.rt i{font-style:normal;color:var(--accent)}.g3.r2{grid-template-columns:repeat(2,1fr)}.g3.g4{grid-template-columns:repeat(4,1fr)}@media(max-width:1000px){.g3.g4{grid-template-columns:repeat(2,1fr)}}
+.pa{counter-reset:p}.pa h3{display:flex;align-items:center;gap:10px}.pa h3:before{counter-increment:p;content:counter(p);flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}.hd svg{margin:0;flex:none}.hd h3{margin:0}.wi{width:20px;height:20px;fill:currentColor;flex:none}
 .pa{grid-template-columns:repeat(4,1fr)}
 .tr{background:var(--accent);color:var(--accent-ink);border-radius:20px;padding:34px;display:flex;flex-wrap:wrap;gap:18px 30px;align-items:center}
 .tr h2{margin:0;font-size:26px}.tr p{margin:4px 0 0;opacity:.85}.tr form{margin-left:auto;display:flex;gap:10px;flex:1;min-width:280px;max-width:480px}
@@ -44,23 +45,39 @@ h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em;line-height:1.15;margi
 details{border-bottom:1px solid var(--line);padding:16px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--mute);margin:10px 0 0}
 .ct{display:grid;grid-template-columns:1.1fr 1fr;gap:30px}.ct dl{margin:0;display:grid;gap:14px}.ct dt{font-size:13px;color:var(--mute);font-weight:600}.ct dd{margin:2px 0 0;font-weight:500}
 .mp{border-radius:16px;background:var(--soft);border:1px dashed var(--line);display:grid;place-items:center;color:var(--mute);min-height:220px;text-align:center;padding:20px}
+.btn{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,color .18s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,27,61,.22)}.btn:active{transform:translateY(0) scale(.97);box-shadow:none}
+.btn.o:hover{background:var(--soft);box-shadow:inset 0 0 0 1.5px var(--accent),0 8px 22px rgba(15,27,61,.10)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wi{transition:transform .25s ease}.btn:hover .wi{transform:rotate(-14deg) scale(1.15)}
+.mk{transition:transform .25s ease}.lg:hover .mk{transform:rotate(-8deg) scale(1.08)}
+nav a{position:relative;transition:color .15s}nav a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .22s ease}nav a:hover:after{transform:scaleX(1)}
+.c{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.c:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--accent)}
+.c:hover svg{animation:pop .5s ease}.rt i{display:inline-block;transition:transform .2s}.rt:hover i{transform:translateX(5px)}
+summary{transition:color .15s}summary:hover{color:var(--accent)}details p{animation:up .3s ease}
+.tr input:focus{outline:3px solid rgba(255,255,255,.55);outline-offset:2px}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes pop{40%{transform:scale(1.25) rotate(-6deg)}}
+.rv:not(.in){opacity:0}.rv.in{animation:up .6s ease backwards;animation-delay:var(--d,0ms)}
+body.listo .hero h1{animation:up .7s ease backwards}body.listo .hero p{animation:up .7s .12s ease backwards}body.listo .cta{animation:up .7s .24s ease backwards}body.listo .trust{animation:up .7s .36s ease backwards}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv:not(.in){opacity:1}}
 footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-size:14px}footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
 @media(max-width:860px){nav{display:none}.hero{background:linear-gradient(180deg,var(--bg) 55%,transparent),url(hero.jpg) center bottom/100% auto no-repeat var(--bg);padding:44px 0 260px}
-.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}}
+.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2,.g3.g4{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}}
 </style>
 <noscript><style>body{visibility:visible!important}</style></noscript>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol></svg>
 <div class="ej">Página de ejemplo · los datos de esta agencia son ficticios</div>
-<header><div class="w"><a class="lg" href="#" id="lg"></a><nav><a href="#servicios">Servicios</a><a href="#rutas">Cobertura</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav><a class="btn" id="hw" href="#" target="_blank" rel="noopener">Cotizar</a></div></header>
+<header><div class="w"><a class="lg" href="#" id="lg"></a><nav><a href="#servicios">Servicios</a><a href="#rutas">Cobertura y rutas</a><a href="#faq">Preguntas</a><a href="#contacto">Contacto</a></nav><a class="btn" id="hw" href="#" target="_blank" rel="noopener">Cotizar<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></div></header>
 <main>
-<section class="hero"><div class="w"><h1 id="h1"></h1><p id="hp"></p><div class="cta"><a class="btn" id="hc" href="#" target="_blank" rel="noopener">Cotizar por WhatsApp</a><a class="btn o" href="#rastreo">Rastrear mi envío</a></div><ul class="trust" id="tru"></ul></div></section>
-<section id="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3" id="sv"></div></div></section>
+<section class="hero"><div class="w"><h1 id="h1"></h1><p id="hp"></p><div class="cta"><a class="btn" id="hc" href="#" target="_blank" rel="noopener">Cotizar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a><a class="btn o" href="#rastreo">Rastrear mi envío</a></div><ul class="trust" id="tru"></ul></div></section>
+<section id="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3 g4" id="sv"></div></div></section>
 <section class="s" id="rutas"><div class="w"><h2>Cobertura y rutas</h2><p class="sub">Salidas regulares desde nuestros almacenes.</p><div class="g3 r2" id="rt"></div></div></section>
 <section><div class="w"><h2>Cómo funciona</h2><p class="sub">Cuatro pasos, con seguimiento en cada uno.</p><div class="g3 pa" id="pa"></div></div></section>
 <section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento en carga.pe.</p></div><form id="tf"><input id="tc" placeholder="Código de seguimiento" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div></div></section>
 <section class="s" id="faq"><div class="w" style="max-width:780px"><h2>Preguntas frecuentes</h2><div id="fq" style="margin-top:20px"></div></div></section>
-<section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Escribir por WhatsApp</a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
+<section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Contactar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
 </main>
 <footer><div class="w"><span id="ft"></span><span>Seguimiento de envíos por <a href="index.html"><b>carga.pe</b></a></span></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -72,7 +89,7 @@ const A={nombre:'Andes Cargo Express',inicial:'A',
  whatsapp:'51999999999',telefono:'+51 999 999 999',email:'ventas@ejemplo.pe',
  direccion:'Av. Ejemplo 123, Lima',horario:'Lunes a sábado · 8:00 a 18:00',
  garantias:['Recojo a domicilio','Salidas diarias','Seguimiento en línea'],
- servicios:[['truck','Carga terrestre','Camiones propios para carga completa o parcial a nivel nacional.'],['layers','Carga consolidada','Comparte espacio y paga solo por lo que envías.'],['clock','Envíos express','Entregas prioritarias para cuando no puedes esperar.'],['pin','Recojo y entrega','Recogemos en tu local y entregamos en destino.'],['box','Almacenaje','Resguardamos tu mercadería antes y después del envío.']],
+ servicios:[['layers','Carga consolidada','Comparte espacio y paga solo por lo que envías.'],['clock','Envíos express','Entregas prioritarias para cuando no puedes esperar.'],['pin','Recojo y entrega','Recogemos en tu local y entregamos en destino.'],['box','Almacenaje','Resguardamos tu mercadería antes y después del envío.']],
  rutas:[['Lima','Arequipa'],['Arequipa','Lima'],['Lima','Cusco'],['Cusco','Lima']],
  pasos:[['Cotiza','Cuéntanos qué envías y a dónde. Te respondemos con precio y plazo.'],['Recogemos','Pasamos por tu local o recibes tu carga en nuestro almacén.'],['Seguimiento','Con tu código ves en qué etapa está tu carga.'],['Entrega','Tu carga llega a destino y se confirma la entrega.']],
  faq:[['¿Cómo calculan el precio?','Según el peso, el volumen, el destino y el tipo de carga. Escríbenos por WhatsApp con esos datos y te enviamos la cotización.'],['¿Cuánto demora un envío?','Depende de la ruta y del tipo de carga. Al cotizar te indicamos un plazo estimado.'],['¿Cómo rastreo mi carga?','Con el código de seguimiento que te entregamos, ingresándolo en carga.pe.']]};
@@ -92,17 +109,28 @@ $('#lg').innerHTML=`<span class="mk">${esc(A.nombre[0].toUpperCase())}</span>${e
 $('#h1').innerHTML=esc(A.titulo).replace(/\*(.+?)\*/g,'<em>$1</em>');$('#hp').textContent=A.bajada;
 $('#tru').innerHTML=A.garantias.map(g=>`<li>${g}</li>`).join('');
 $('#hw').href=$('#hc').href=$('#cc').href=wa(`Hola ${A.nombre}, quisiera cotizar un envío.`);
-$('#sv').innerHTML=A.servicios.map(s=>`<div class="c"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[s[0]]}</svg><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join('');
+$('#sv').innerHTML=A.servicios.map(s=>`<div class="c"><div class="hd"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[s[0]]}</svg><h3>${s[1]}</h3></div><p>${s[2]}</p></div>`).join('');
 $('#rt').innerHTML=A.rutas.map(r=>`<div class="c rt">${r[0]} <i>→</i> ${r[1]}</div>`).join('');
 $('#pa').innerHTML=A.pasos.map(p=>`<div class="c"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('');
 $('#fq').innerHTML=A.faq.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
-$('#dl').innerHTML=[['Teléfono / WhatsApp',A.telefono],['Correo',A.email],['Dirección',A.direccion],['Horario',A.horario]].map(d=>`<div><dt>${d[0]}</dt><dd>${esc(d[1])}</dd></div>`).join('');
+$('#dl').innerHTML=[['Teléfono / WhatsApp',A.telefono],['Correo',A.email],['Dirección',A.direccion],['Horarios',A.horario]].map(d=>`<div><dt>${d[0]}</dt><dd>${esc(d[1])}</dd></div>`).join('');
 $('#ft').textContent='© '+new Date().getFullYear()+' '+A.nombre;
 $('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(c)location.href='index.html#seg-'+c};
 }
 // ===== DATOS EDITABLES DESDE SUPABASE (tabla "agencias") =====
 const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
-const fallo=setTimeout(()=>{pintar();document.body.classList.add("listo")},3000); // si Supabase tarda, muestra los datos de ejemplo
+let animado=false;
+function animar(){
+  if(animado)return;animado=true;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('section h2,section .sub,.c,.tr,details,.mp').forEach(el=>{
+    if(el.closest('.hero'))return;
+    el.classList.add('rv');
+    if(el.classList.contains('c'))el.style.setProperty('--d',Math.min([...el.parentNode.children].indexOf(el),5)*80+'ms');
+    io.observe(el)});
+}
+const fallo=setTimeout(()=>{pintar();document.body.classList.add("listo");animar()},3000); // si Supabase tarda, muestra los datos de ejemplo
 (async()=>{
   try{
     const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -111,7 +139,7 @@ const fallo=setTimeout(()=>{pintar();document.body.classList.add("listo")},3000)
     if(data)for(const k of ['nombre','titulo','bajada','whatsapp','telefono','email','direccion','horario'])if(data[k])A[k]=k==='whatsapp'?String(data[k]).replace(/\D/g,''):data[k];
     if(data)aplicarTema(data.tema);
   }catch(e){}
-  clearTimeout(fallo);pintar();document.body.classList.add("listo");
+  clearTimeout(fallo);pintar();document.body.classList.add("listo");animar();
 })();
 </script>
 </body>
