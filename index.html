@@ -91,6 +91,8 @@ a{color:var(--accent);font-weight:600}
 .steps li.now::after{content:"actual";display:block;font-weight:400}
 @media(max-width:560px){.steps li{font-size:11px}.card{padding:14px 12px}}
 .hid{display:none}
+html{background:var(--bg)}body{visibility:hidden}body.listo{visibility:visible}
+.brand,#tabs{display:none}
 .site{background:var(--surface);border-bottom:1px solid var(--line)}
 .site>div{max-width:1200px;margin:0 auto;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .site .brandlink{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none}
@@ -116,6 +118,7 @@ body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%
 .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 </style>
+<noscript><style>body{visibility:visible!important}.brand,#tabs{display:none!important}</style></noscript>
 </head>
 <body>
 <header class="site" id="site"><div><a class="brandlink" href="#" aria-label="carga.pe, inicio"><svg class="cube" viewBox="0 0 48 52" aria-hidden="true"><polygon class="t" points="24,2 44,13 24,24 4,13"/><polygon class="l" points="4,13 24,24 24,50 4,39"/><polygon class="r" points="44,13 24,24 24,50 44,39"/></svg><b>carga<i>.pe</i></b></a><a class="faq" href="#preguntas">Preguntas frecuentes</a></div></header>
@@ -158,7 +161,7 @@ const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJh
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S={o:[]},user=null,SEG={t:null,o:null},tab='o',alm='Lima';
 const fromDb=r=>({num:r.num,id:'ORD-'+String(r.num).padStart(4,'0'),fecha:r.fecha,fe:r.fe,cliente:r.cliente,origen:r.origen,destino:r.destino,desc:r.mercancia,bultos:r.bultos,peso:r.peso==null?null:+r.peso,estado:r.estado,cond:r.cond,token:r.token});
-async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);const r=await db.from('agencias').select('*').order('id').limit(1);S.ag=r.data&&r.data[0]||null}
+async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);S.cargado=!error;const r=await db.from('agencias').select('*').order('id').limit(1);S.ag=r.data&&r.data[0]||null}
 
 function vO(){
   let h=`<div class="bar"><h2>Órdenes</h2><button class="btn" data-a="no">Nueva orden</button></div>`;
@@ -225,12 +228,13 @@ const vLogin=()=>`<div class="card" style="max-width:380px;margin:30px auto"><h2
 async function render(){
   document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
   const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/i),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',fq=h==='preguntas',pub=!ad&&!mo;if(mc)mc[1]=mc[1].toUpperCase();
-  $('#tabs').style.display=ad&&user?'':'none';
+  $('#tabs').style.display=ad&&user?'flex':'none';
   $('#site').style.display=pub?'':'none';
   $('#sfoot').style.display=pub?'':'none';
   document.body.classList.toggle('pub',pub);$('.wrap').classList.toggle('wide',pub);$('#main').className=pub&&(mc||fq)?'narrow':'';
-  $('.brand').style.display=pub?'none':'';
+  $('.brand').style.display=pub?'none':'flex';
   document.title=pub?(mc?'Seguimiento de tu envío · carga.pe':fq?'Preguntas frecuentes · carga.pe':'Rastrea tu envío · carga.pe'):'carga.pe Business';
+  if((ad||mo)&&user&&!S.cargado)await load();
   if(!mc)SEG.t=null;
   if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
   $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():tab==='i'?vI():vCuenta()):fq?vFaq():vHome();
@@ -297,7 +301,15 @@ document.addEventListener('submit',async e=>{
   if(e.target.id==='sf'){e.preventDefault();const q=$('#sq').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!q){$('#se').textContent='Ingresa tu código de seguimiento.';return}location.hash='seg-'+q}
   if(e.target.id==='lf'){e.preventDefault();const f=new FormData(e.target);const{data,error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('pw')});if(error){$('#le').textContent='Correo o contraseña incorrectos.';return}user=data.user;await load();render()}
 });
-(async()=>{const{data}=await db.auth.getSession();user=data.session?data.session.user:null;if(user)await load();addEventListener('hashchange',render);render()})();
+const listo=()=>document.body.classList.add('listo');
+setTimeout(listo,4000); // por si algo tarda demasiado, nunca queda en blanco
+addEventListener('hashchange',render);
+(async()=>{
+  const privada=/^#(admin|orden-)/.test(location.hash);
+  if(!privada){await render();listo()}
+  const{data}=await db.auth.getSession();user=data.session?data.session.user:null;
+  if(privada){await render();listo()}
+})();
 </script>
 </body>
 </html>
