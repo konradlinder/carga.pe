@@ -99,14 +99,14 @@ clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',pin:'<path d="M2
 box:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
 shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'};
 const ICN=['layers','clock','pin','box','truck','shield'];
-const TEMAS={azul:['#1d4ed8','#6e9bff','#f3f6fc'],verde:['#047857','#34d399','#f1f8f5'],naranja:['#c2410c','#fb923c','#fdf5f0'],violeta:['#6d28d9','#a78bfa','#f6f3fd'],grafito:['#334155','#cbd5e1','#f3f4f6']};
+const TEMAS={azul:['#1d4ed8','#6e9bff','#f3f6fc'],verde:['#047857','#34d399','#f1f8f5'],naranja:['#c2410c','#fb923c','#fdf5f0'],violeta:['#6d28d9','#a78bfa','#f6f3fd'],grafito:['#334155','#cbd5e1','#f3f4f6'],rojo:['#b91c1c','#f87171','#fdf3f3'],rosa:['#be185d','#f472b6','#fdf2f7'],turquesa:['#0f766e','#2dd4bf','#f0f9f8'],marron:['#78350f','#d6a06a','#f8f4ef']};
 function mezcla(h,c,p){const n=parseInt(h.slice(1),16),r=[n>>16&255,n>>8&255,n&255].map(v=>Math.round(v+(c-v)*p));return '#'+r.map(v=>v.toString(16).padStart(2,'0')).join('')}
 function favicon(c){try{const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 52 52"><polygon fill="${mezcla(c,255,.35)}" points="24,2 44,13 24,24 4,13"/><polygon fill="${c}" points="4,13 24,24 24,50 4,39"/><polygon fill="${mezcla(c,0,.4)}" points="44,13 24,24 24,50 44,39"/></svg>`;$('#fav').href='data:image/svg+xml,'+encodeURIComponent(svg)}catch(e){}}
 function aplicarTema(k){const t=TEMAS[k];if(!t)return;favicon(t[0]);const d=matchMedia('(prefers-color-scheme: dark)').matches,r=document.documentElement.style;r.setProperty('--accent',d?t[1]:t[0]);if(!d)r.setProperty('--soft',t[2])}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function favicon(){
-  const t=TEMAS[A.tema]||TEMAS.azul,ini=String(A.nombre||'C')[0].toUpperCase().replace(/[<>&]/g,'');
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${t[0]}"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="38" fill="#fff">${ini}</text></svg>`;
+  const t=TEMAS[A.tema]||TEMAS.azul,ini=(Array.from(String(A.favicon_texto||'').trim()).slice(0,2).join('')||String(A.nombre||'C')[0].toUpperCase()).replace(/[<>&]/g,''),fs=Array.from(ini).length>1?30:38;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${t[0]}"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${fs}" fill="#fff">${ini}</text></svg>`;
   let l=document.querySelector('link[rel=icon]');if(!l){l=document.createElement('link');l.rel='icon';document.head.appendChild(l)}
   l.type='image/svg+xml';l.href='data:image/svg+xml,'+encodeURIComponent(svg);
 }

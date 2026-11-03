@@ -158,7 +158,7 @@ const $=s=>document.querySelector(s);
 const LUG=['Lima','Cusco','Arequipa','Otros'],ALM=['Lima','Cusco','Arequipa'],EST=['Cotizado','En origen','En tránsito','En destino','Entregado'],CON=['Por cobrar','Cobrado'];
 const today=()=>new Date().toISOString().slice(0,10);
 const fd=d=>d?d.split('-').reverse().join('/'):'';
-const TEMAS={azul:['Azul','#1d4ed8'],verde:['Verde','#047857'],naranja:['Naranja','#c2410c'],violeta:['Violeta','#6d28d9'],grafito:['Grafito','#334155']};
+const TEMAS={azul:['Azul','#1d4ed8'],verde:['Verde','#047857'],naranja:['Naranja','#c2410c'],violeta:['Violeta','#6d28d9'],grafito:['Grafito','#334155'],rojo:['Rojo','#b91c1c'],rosa:['Rosa','#be185d'],turquesa:['Turquesa','#0f766e'],marron:['Marrón','#78350f']};
 function vCuenta(){
   const a=S.ag;
   if(!a)return `<div class="card"><h2 style="margin:0 0 6px">Mi cuenta</h2><p class="mute" style="margin:0">No se encontró tu agencia. Ejecuta <b>agencias.sql</b> en Supabase y recarga.</p></div>`;
