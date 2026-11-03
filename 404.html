@@ -12,16 +12,16 @@
 <style>
 :root{--bg:#fff;--soft:#f3f6fc;--ink:#0f1b3d;--mute:#5b667d;--line:#e3e8f0;--accent:#1d4ed8;--accent-ink:#fff;--shadow:0 10px 30px rgba(15,27,61,.10)}
 @media(prefers-color-scheme:dark){:root{--bg:#0e1424;--soft:#141b30;--ink:#eef2fb;--mute:#9aa6c0;--line:#27304a;--accent:#6e9bff;--accent-ink:#0e1424;--shadow:0 10px 30px rgba(0,0,0,.4)}}
-[hidden]{display:none!important}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
+[hidden]{display:none!important}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}
 html{background:var(--bg)}body{visibility:hidden}body.listo{visibility:visible}
 body{margin:0;font:16px/1.55 "Public Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
 a{color:inherit}.w{max-width:1160px;margin:0 auto;padding:0 20px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:600 16px "Public Sans",sans-serif;padding:14px 24px;cursor:pointer;text-decoration:none}
 .btn.o{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-header .w{display:flex;align-items:center;gap:22px;height:68px}
-.lg{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;text-decoration:none}
-.mk{width:36px;height:36px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
+header .w{display:flex;align-items:center;gap:22px;height:80px}
+.lg{display:flex;align-items:center;gap:12px;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1;text-decoration:none}
+.mk{flex:none;width:46px;height:46px;font-size:22px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
 nav{margin-left:auto;display:flex;gap:22px}nav a{color:var(--mute);text-decoration:none;font-weight:500;font-size:15px}nav a:hover{color:var(--ink)}
 .hero{background:linear-gradient(90deg,var(--bg) 38%,transparent 75%),url(/hero.jpg) right center/auto 100% no-repeat var(--bg);padding:76px 0 90px}
 .nf{padding:110px 0;text-align:center}.nf h1{font-size:clamp(30px,4vw,44px);margin:0 0 12px;letter-spacing:-.02em}.nf p{color:var(--mute);max-width:480px;margin:0 auto 26px}
@@ -55,13 +55,17 @@ details{border-bottom:1px solid var(--line);padding:16px 0}summary{cursor:pointe
 nav a{position:relative;transition:color .15s}nav a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .22s ease}nav a:hover:after{transform:scaleX(1)}
 summary{transition:color .15s}summary:hover{color:var(--accent)}details p{animation:up .3s ease}
 .tr input:focus{outline:3px solid rgba(255,255,255,.55);outline-offset:2px}
+.rs{margin-top:18px}.rs h3{margin:0 0 4px;font-size:20px}.rs .mt{color:var(--mute);font-size:14px}
+.steps{list-style:none;display:flex;gap:4px;padding:0;margin:18px 0 6px}.steps li{flex:1 1 0;min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:600;color:var(--mute);border-top:4px solid var(--line);padding-top:6px}.steps li.done{border-color:var(--accent);color:var(--ink)}.steps li.now{border-color:var(--accent);color:var(--accent)}
+.rs dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:16px 0 0}.rs dt{color:var(--mute);font-size:14px}.rs dd{margin:0;font-weight:500}.rs .x{background:none;border:0;color:var(--mute);font:inherit;cursor:pointer;text-decoration:underline;padding:0;margin-top:14px}
+@media(max-width:560px){.steps li{font-size:11.5px}}
 @keyframes up{from{opacity:0;transform:translateY(18px)}}
 .rv:not(.in){opacity:0}.rv.in{animation:up .6s ease backwards;animation-delay:var(--d,0ms)}
 body.listo .hero h1{animation:up .7s ease backwards}body.listo .hero p{animation:up .7s .12s ease backwards}body.listo .cta{animation:up .7s .24s ease backwards}body.listo .trust{animation:up .7s .36s ease backwards}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv:not(.in){opacity:1}}
 footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-size:14px}footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
 @media(max-width:860px){nav{display:none}.hero{background:linear-gradient(180deg,var(--bg) 55%,transparent),url(/hero.jpg) center bottom/100% auto no-repeat var(--bg);padding:44px 0 260px}
-.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2,.g3.g4{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}}
+.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2,.g3.g4{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}header .w{height:72px;gap:12px}.lg{font-size:20px;gap:10px}.mk{width:40px;height:40px;font-size:19px}}
 </style>
 <noscript><style>body{visibility:visible!important}</style></noscript>
 </head>
@@ -74,7 +78,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 <section id="servicios" data-b="servicios"><div class="w"><h2>Servicios</h2><p class="sub">Todo lo que necesitas para mover tu carga, de puerta a puerta.</p><div class="g3 g4" id="sv"></div></div></section>
 <section class="s" id="rutas" data-b="rutas"><div class="w"><h2>Cobertura y rutas</h2><p class="sub">Salidas regulares desde nuestros almacenes.</p><div class="g3 r2" id="rt"></div></div></section>
 <section id="pasos" data-b="pasos"><div class="w"><h2>Cómo funciona</h2><p class="sub">Así trabajamos, con seguimiento en cada etapa.</p><div class="g3 pa" id="pa"></div></div></section>
-<section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento en carga.pe.</p></div><form id="tf"><input id="tc" placeholder="Código de seguimiento" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div></div></section>
+<section id="rastreo" style="padding-top:0"><div class="w"><div class="tr"><div><h2>¿Ya enviaste tu carga?</h2><p>Ingresa tu código de seguimiento y mira en qué etapa está.</p></div><form id="tf" autocomplete="off"><input id="tc" placeholder="Código de seguimiento" aria-label="Código de seguimiento" required><button class="btn">Rastrear</button></form></div><div id="rs" role="status" aria-live="polite"></div></div></section>
 <section class="s" id="faq" data-b="faq"><div class="w" style="max-width:780px"><h2>Preguntas frecuentes</h2><div id="fq" style="margin-top:20px"></div></div></section>
 <section id="contacto"><div class="w ct"><div><h2>Contacto</h2><p class="sub">Escríbenos y te respondemos con tu cotización.</p><dl id="dl"></dl><p style="margin-top:22px"><a class="btn" id="cc" href="#" target="_blank" rel="noopener">Contactar por WhatsApp<svg class="wi" aria-hidden="true"><use href="#wa"/></svg></a></p></div><div class="mp">Aquí irá el mapa con la ubicación de la agencia</div></div></section>
 </main>
@@ -114,8 +118,26 @@ const vis={servicios:A.servicios.length,rutas:A.rutas.length,pasos:A.pasos.lengt
 $$('[data-b]').forEach(e=>e.hidden=!vis[e.dataset.b]);$$('nav [data-s]').forEach(e=>e.hidden=!vis[e.dataset.s]);
 $('#tru').hidden=!A.garantias.length;
 $('#ft').textContent='© '+new Date().getFullYear()+' '+A.nombre;
-$('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(c)location.href='/#seg-'+c};
+$('#tf').onsubmit=e=>{e.preventDefault();const c=$('#tc').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(c){if(location.hash==='#seg-'+c)mostrar();else location.hash='seg-'+c}};
 }
+const EST=['Cotizado','En origen','En tránsito','En destino','Entregado'];
+let db=null,segTok=null;
+async function mostrar(){
+  const m=location.hash.match(/^#seg-([a-z0-9]+)$/i),box=$('#rs');if(!box||!db)return;
+  if(!m){box.innerHTML='';segTok=null;return}
+  const t=m[1].toUpperCase();$('#tc').value=t;segTok=t;
+  box.innerHTML='<div class="c rs"><p class="mt" style="margin:0">Buscando tu envío…</p></div>';
+  let r;try{r=await db.rpc('seguimiento',{p_token:t})}catch(e){r={error:e}}
+  if(segTok!==t)return;
+  const o=r&&r.data&&r.data[0];
+  if(!o){box.innerHTML=`<div class="c rs"><h3>No encontramos este código</h3><p class="mt" style="margin:6px 0 0">Verifica que lo hayas escrito completo, sin espacios. Si el problema continúa, escríbenos por WhatsApp.</p><button class="x" type="button" data-x>Cerrar</button></div>`}
+  else{const k=EST.indexOf(o.estado),peso=typeof o.peso==='number'||o.peso!=null&&!isNaN(+o.peso)?(+o.peso).toLocaleString('es-PE')+' kg':'—';
+    box.innerHTML=`<div class="c rs"><span class="mt">Orden</span><h3>ORD-${String(o.num).padStart(4,'0')}</h3><ol class="steps" aria-label="Progreso del envío">${EST.map((e,j)=>`<li class="${j<k?'done':j===k?'now':''}">${e}</li>`).join('')}</ol>
+    <dl><dt>Cliente</dt><dd>${esc(o.cliente)}</dd><dt>Mercancía</dt><dd>${esc(o.mercancia||'—')}</dd><dt>Origen</dt><dd>${esc(o.origen||'—')}</dd><dt>Destino</dt><dd>${esc(o.destino||'—')}</dd><dt># Bultos</dt><dd>${o.bultos??'—'}</dd><dt>Peso</dt><dd>${peso}</dd><dt>Pago</dt><dd>${esc(o.cond||'—')}</dd></dl><button class="x" type="button" data-x>Cerrar</button></div>`}
+  box.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
+}
+document.addEventListener('click',e=>{if(e.target.closest('[data-x]')){history.replaceState(null,'',location.pathname);$('#rs').innerHTML='';$('#tc').value='';segTok=null}});
+addEventListener('hashchange',mostrar);
 function noExiste(){document.title='Página no encontrada · carga.pe';$('#ok').hidden=true;$('#nf').hidden=false;$('header .btn').hidden=true;$('nav').hidden=true;$('#lg').innerHTML='<span class="mk">c</span>carga.pe';$('#lg').href='/';$('#ft').textContent='© '+new Date().getFullYear()+' carga.pe'}
 // ===== DATOS DESDE SUPABASE: carga.pe/nombre-agencia =====
 const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
@@ -136,10 +158,10 @@ const fallo=setTimeout(()=>{noExiste();listo()},6000);
   const slug=decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g,'').toLowerCase();
   if(!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)){noExiste();listo();return}
   try{
-    const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
     const{data,error}=await db.rpc('agencia_publica',{p_slug:slug});
     if(error||!data){noExiste();listo();return}
-    A=data;aplicarTema(A.tema);pintar();listo();animar();
+    A=data;aplicarTema(A.tema);pintar();listo();animar();mostrar();
   }catch(e){noExiste();listo()}
 })();
 </script>
