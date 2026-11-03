@@ -52,11 +52,9 @@ details{border-bottom:1px solid var(--line);padding:16px 0}summary{cursor:pointe
 .wi{transition:transform .25s ease}.btn:hover .wi{transform:rotate(-14deg) scale(1.15)}
 .mk{transition:transform .25s ease}.lg:hover .mk{transform:rotate(-8deg) scale(1.08)}
 nav a{position:relative;transition:color .15s}nav a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .22s ease}nav a:hover:after{transform:scaleX(1)}
-.c{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.c:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--accent)}
-.c:hover svg{animation:pop .5s ease}.rt i{display:inline-block;transition:transform .2s}.rt:hover i{transform:translateX(5px)}
 summary{transition:color .15s}summary:hover{color:var(--accent)}details p{animation:up .3s ease}
 .tr input:focus{outline:3px solid rgba(255,255,255,.55);outline-offset:2px}
-@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes pop{40%{transform:scale(1.25) rotate(-6deg)}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}
 .rv:not(.in){opacity:0}.rv.in{animation:up .6s ease backwards;animation-delay:var(--d,0ms)}
 body.listo .hero h1{animation:up .7s ease backwards}body.listo .hero p{animation:up .7s .12s ease backwards}body.listo .cta{animation:up .7s .24s ease backwards}body.listo .trust{animation:up .7s .36s ease backwards}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv:not(.in){opacity:1}}
