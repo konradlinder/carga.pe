@@ -6,7 +6,7 @@
 <title>carga.pe</title>
 <meta name="description" content="Envíos de carga por tierra a todo el Perú. Cotiza tu envío y rastréalo con carga.pe.">
 <meta name="robots" content="noindex,nofollow">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" id="fav">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 1 1%27%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -21,7 +21,7 @@ a{color:inherit}.w{max-width:1160px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 header .w{display:flex;align-items:center;gap:22px;height:80px}
 .lg{display:flex;align-items:center;gap:12px;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1;text-decoration:none}
-.mk{flex:none;width:46px;height:46px;font-size:22px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
+.mk.m2{font-size:17px;letter-spacing:-.02em}.mk{flex:none;width:46px;height:46px;font-size:22px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
 nav{margin-left:auto;display:flex;gap:22px}nav a{color:var(--mute);text-decoration:none;font-weight:500;font-size:15px}nav a:hover{color:var(--ink)}
 .hero{background:linear-gradient(90deg,var(--bg) 38%,transparent 75%),url(/hero.jpg) right center/auto 100% no-repeat var(--bg);padding:76px 0 90px}
 .nf{padding:110px 0;text-align:center}.nf h1{font-size:clamp(30px,4vw,44px);margin:0 0 12px;letter-spacing:-.02em}.nf p{color:var(--mute);max-width:480px;margin:0 auto 26px}
@@ -70,7 +70,7 @@ body.listo .hero h1{animation:up .7s ease backwards}body.listo .hero p{animation
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv:not(.in){opacity:1}}
 footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-size:14px}footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
 @media(max-width:860px){nav{display:none}.hero{background:linear-gradient(180deg,var(--bg) 55%,transparent),url(/hero.jpg) center bottom/100% auto no-repeat var(--bg);padding:44px 0 260px}
-.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2,.g3.g4{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}header .w{height:72px;gap:12px}.lg{font-size:20px;gap:10px}.mk{width:40px;height:40px;font-size:19px}}
+.pa{grid-template-columns:1fr 1fr}.g3,.g3.r2,.g3.g4{grid-template-columns:1fr}.ct{grid-template-columns:1fr}.tr form{margin:0;max-width:none}header .btn{margin-left:auto;padding:10px 16px}header .w{height:72px;gap:12px}.lg{font-size:20px;gap:10px}.mk{width:40px;height:40px;font-size:19px}.mk.m2{font-size:15px}}
 </style>
 <noscript><style>body{visibility:visible!important}</style></noscript>
 </head>
@@ -104,8 +104,9 @@ function mezcla(h,c,p){const n=parseInt(h.slice(1),16),r=[n>>16&255,n>>8&255,n&2
 function favicon(c){try{const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 52 52"><polygon fill="${mezcla(c,255,.35)}" points="24,2 44,13 24,24 4,13"/><polygon fill="${c}" points="4,13 24,24 24,50 4,39"/><polygon fill="${mezcla(c,0,.4)}" points="44,13 24,24 24,50 44,39"/></svg>`;$('#fav').href='data:image/svg+xml,'+encodeURIComponent(svg)}catch(e){}}
 function aplicarTema(k){const t=TEMAS[k];if(!t)return;favicon(t[0]);const d=matchMedia('(prefers-color-scheme: dark)').matches,r=document.documentElement.style;r.setProperty('--accent',d?t[1]:t[0]);if(!d)r.setProperty('--soft',t[2])}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sigla=()=>(Array.from(String(A.favicon_texto||'').trim()).slice(0,2).join('')||String(A.nombre||'C')[0].toUpperCase()).replace(/[<>&]/g,'');
 function favicon(){
-  const t=TEMAS[A.tema]||TEMAS.azul,ini=(Array.from(String(A.favicon_texto||'').trim()).slice(0,2).join('')||String(A.nombre||'C')[0].toUpperCase()).replace(/[<>&]/g,''),fs=Array.from(ini).length>1?30:38;
+  const t=TEMAS[A.tema]||TEMAS.azul,ini=sigla(),fs=Array.from(ini).length>1?30:38;
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${t[0]}"/><text x="32" y="45" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="${fs}" fill="#fff">${ini}</text></svg>`;
   let l=document.querySelector('link[rel=icon]');if(!l){l=document.createElement('link');l.rel='icon';document.head.appendChild(l)}
   l.type='image/svg+xml';l.href='data:image/svg+xml,'+encodeURIComponent(svg);
@@ -115,7 +116,7 @@ const arr=k=>Array.isArray(A[k])?A[k].filter(x=>x&&(Array.isArray(x)?x[0]:x)):[]
 A.nombre=A.nombre||'Agencia';A.ubicaciones=arr('ubicaciones');A.garantias=arr('garantias');A.servicios=arr('servicios');A.rutas=arr('rutas').filter(r=>r[1]);A.pasos=arr('pasos');A.faq=arr('faq');
 document.title=A.nombre+' · Agencia de carga · carga.pe';favicon();
 const d=document.querySelector('meta[name=description]');if(d)d.content=(A.bajada||'Envíos de carga por tierra a todo el Perú.')+' Rastrea tu envío con carga.pe.';
-$('#lg').innerHTML=`<span class="mk">${esc(A.nombre[0].toUpperCase())}</span>${esc(A.nombre)}`;
+$('#lg').innerHTML=`<span class="mk${Array.from(sigla()).length>1?' m2':''}">${esc(sigla())}</span>${esc(A.nombre)}`;
 $('#h1').innerHTML=esc(A.titulo||A.nombre).replace(/\*(.+?)\*/g,'<em>$1</em>');$('#hp').textContent=A.bajada||'';$('#hp').hidden=!A.bajada;
 $('#tru').innerHTML=A.garantias.map(g=>`<li>${esc(g)}</li>`).join('');
 const w=String(A.whatsapp||'').replace(/\D/g,'');
@@ -158,7 +159,7 @@ async function mostrar(){
 }
 document.addEventListener('click',e=>{if(e.target.closest('[data-x]')){history.replaceState(null,'',location.pathname);$('#rs').innerHTML='';$('#tc').value='';segTok=null}});
 addEventListener('hashchange',mostrar);
-function noExiste(){document.title='Página no encontrada · carga.pe';$('#ok').hidden=true;$('#nf').hidden=false;$('header .btn').hidden=true;$('nav').hidden=true;$('#lg').innerHTML='<span class="mk">c</span>carga.pe';$('#lg').href='/';$('#ft').textContent='© '+new Date().getFullYear()+' carga.pe'}
+function noExiste(){document.title='Página no encontrada · carga.pe';{const l=document.querySelector('link[rel=icon]');l.href='/favicon.svg'}$('#ok').hidden=true;$('#nf').hidden=false;$('header .btn').hidden=true;$('nav').hidden=true;$('#lg').innerHTML='<span class="mk">c</span>carga.pe';$('#lg').href='/';$('#ft').textContent='© '+new Date().getFullYear()+' carga.pe'}
 // ===== DATOS DESDE SUPABASE: carga.pe/nombre-agencia =====
 const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndycG92Y2pvZW5oZ2thdG9jY2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NjI5OTEsImV4cCI6MjEwOTEzODk5MX0.qkQNP9SwpqFZ3jA0HZKuc7CwL0mN58Bfk-Yhj4x8b94';
 let animado=false;
