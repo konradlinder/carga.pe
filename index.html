@@ -143,7 +143,8 @@ body{min-height:100vh;display:flex;flex-direction:column}.wrap{flex:1;width:100%
 <nav role="tablist" id="tabs">
   <button role="tab" data-t="o" aria-selected="true">Órdenes</button>
   <button role="tab" data-t="i" aria-selected="false">Inventarios</button>
-  <button role="tab" data-t="c" aria-selected="false">Mi cuenta</button>
+  <button role="tab" data-t="c" aria-selected="false">Mi agencia</button>
+  <button role="tab" data-t="a" id="tabAg" aria-selected="false" style="display:none">Agencias</button>
   <button data-a="out" style="margin-left:auto">Salir</button>
 </nav>
 <main id="main"><h1>Rastrea tu envío</h1><p>Ingresa el código de seguimiento y conoce el estado de tu carga en tiempo real.</p></main>
@@ -159,17 +160,66 @@ const LUG=['Lima','Cusco','Arequipa','Otros'],ALM=['Lima','Cusco','Arequipa'],ES
 const today=()=>new Date().toISOString().slice(0,10);
 const fd=d=>d?d.split('-').reverse().join('/'):'';
 const TEMAS={azul:['Azul','#1d4ed8'],verde:['Verde','#047857'],naranja:['Naranja','#c2410c'],violeta:['Violeta','#6d28d9'],grafito:['Grafito','#334155'],rojo:['Rojo','#b91c1c'],rosa:['Rosa','#be185d'],turquesa:['Turquesa','#0f766e'],marron:['Marrón','#78350f']};
-function vCuenta(){
-  const a=S.ag;
-  if(!a)return `<div class="card"><h2 style="margin:0 0 6px">Mi cuenta</h2><p class="mute" style="margin:0">No se encontró tu agencia. Ejecuta <b>agencias.sql</b> en Supabase y recarga.</p></div>`;
-  const f=(k,l,c='')=>`<label class="${c}">${l}<input name="${k}" value="${esc(a[k])}"></label>`;
-  return `<form id="cf"><div class="card"><h2 style="margin:0 0 4px">Mi cuenta</h2><p class="mute" style="margin:0 0 14px">Estos datos son privados por ahora: la página pública de tu agencia todavía no está publicada.</p>
-  <div class="cf">${f('nombre','Nombre de la agencia *','full')}${f('titulo','Título de la portada (encierra una palabra entre *asteriscos* para resaltarla)','full')}
+const RESERV=['admin','api','app','login','registro','ayuda','soporte','preguntas','seg','orden','ordenes','inventarios','agencias','agencia','cuenta','index','assets','static','www','carga','logix','privacidad','terminos','contacto','precios','blog','favicon','robots','sitemap'];
+const slugify=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40).replace(/-+$/,'');
+const DEF={titulo:'Transporte de carga a todo el *Perú*',bajada:'Recojo, traslado y entrega de tu carga con seguimiento en cada etapa.',
+ garantias:['Recojo a domicilio','Salidas diarias','Seguimiento en línea'],
+ servicios:[['Carga consolidada','Comparte espacio y paga solo por lo que envías.'],['Envíos express','Entregas prioritarias para cuando no puedes esperar.'],['Recojo y entrega','Recogemos en tu local y entregamos en destino.'],['Almacenaje','Resguardamos tu mercadería antes y después del envío.']],
+ rutas:[],ubicaciones:[],
+ pasos:[['Cotiza','Cuéntanos qué envías y a dónde. Te respondemos con precio y plazo.'],['Recogemos','Pasamos por tu local o recibes tu carga en nuestro almacén.'],['Seguimiento','Con tu código ves en qué etapa está tu carga.'],['Entrega','Tu carga llega a destino y se confirma la entrega.']],
+ faq:[['¿Cómo calculan el precio?','Según el peso, el volumen, el destino y el tipo de carga. Escríbenos por WhatsApp con esos datos y te enviamos la cotización.'],['¿Cuánto demora un envío?','Depende de la ruta y del tipo de carga. Al cotizar te indicamos un plazo estimado.'],['¿Cómo rastreo mi carga?','Con el código de seguimiento que te entregamos, ingresándolo en carga.pe.']]};
+const arr=v=>Array.isArray(v)?v:[];
+const t2=a=>arr(a).map(x=>Array.isArray(x)?(x[1]?x[0]+' | '+x[1]:x[0]):x).join('\n');
+const pDos=t=>String(t||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const i=l.indexOf('|');return i<0?[l,'']:[l.slice(0,i).trim(),l.slice(i+1).trim()]}).filter(x=>x[0]);
+const pUno=t=>String(t||'').split('\n').map(l=>l.trim()).filter(Boolean);
+const pRut=t=>String(t||'').split('\n').map(l=>l.trim().split(/\s*(?:→|->|>|\s-\s)\s*/)).filter(p=>p.length>=2&&p[0]&&p[1]).map(p=>[p[0],p[1]]);
+const esDueno=()=>!!user&&String(user.email||'').toLowerCase()==='admin@logix.pe';
+let agSel=null;
+function formAg(a,nueva,dueno){
+  const f=(k,l,c='',ph='')=>`<label class="${c}">${l}<input name="${k}" value="${esc(a[k])}" placeholder="${ph}"></label>`;
+  const ta=(k,l,v,ph,h)=>`<label class="full">${l}<span class="mute" style="font-weight:400;font-size:13px"> · ${h}</span><textarea name="${k}" rows="${Math.max(3,v.split('\n').length+1)}" placeholder="${ph}">${esc(v)}</textarea></label>`;
+  const url=a.slug?'carga.pe/'+a.slug:'';
+  return `<form id="cf" data-id="${a.id||''}" data-nueva="${nueva?1:''}">
+  <div class="card"><h2 style="margin:0 0 12px;font-size:17px">Lo básico</h2><div class="cf">
+  ${f('nombre','Nombre de la agencia *','full','Andes Cargo Express')}
+  ${dueno?`<label class="full">Dirección de la página *<span style="display:flex;align-items:center;gap:6px"><span class="mute">carga.pe/</span><input name="slug" value="${esc(a.slug||'')}" placeholder="andes-cargo" pattern="[a-z0-9]+(-[a-z0-9]+)*" minlength="3" maxlength="40" required style="flex:1" ${nueva?'':'data-t="1"'}></span><span class="mute" style="font-weight:400;font-size:13px">Minúsculas, números y guiones. Si la cambias después, el enlace anterior dejará de funcionar.</span></label>`
+    :`<div class="full mute">Tu página: <a href="/${esc(a.slug)}" target="_blank" rel="noopener">${esc(url)}</a></div>`}
+  ${f('whatsapp','WhatsApp (con código de país)','','51999999999')}${f('telefono','Teléfono','','+51 999 999 999')}${f('email','Correo')}${f('horario','Horarios','','Lunes a sábado · 8:00 a 18:00')}${f('direccion','Dirección','full')}
+  ${f('favicon_texto','Texto del favicon y del logo (hasta 2 caracteres)','','AC')}
+  ${dueno?`<label class="full" style="flex-direction:row;display:flex;align-items:center;gap:8px"><input type="checkbox" name="activa" ${a.activa!==false?'checked':''} style="width:auto;margin:0"> Página activa (si la desmarcas, deja de verse)</label>`:''}</div></div>
+  <div class="card"><h2 style="margin:0 0 12px;font-size:17px">Portada</h2><div class="cf">${f('titulo','Título (encierra una palabra entre *asteriscos* para resaltarla)','full')}
   <label class="full">Texto debajo del título<textarea name="bajada">${esc(a.bajada)}</textarea></label>
-  ${f('whatsapp','WhatsApp (con código de país, ej. 51999999999)')}${f('telefono','Teléfono')}${f('email','Correo')}${f('horario','Horario')}${f('direccion','Dirección','full')}</div></div>
+  ${ta('garantias','Puntos destacados',arr(a.garantias).join('\n'),'Recojo a domicilio','uno por línea')}</div></div>
+  <div class="card"><h2 style="margin:0 0 4px;font-size:17px">Contenido</h2><p class="mute" style="margin:0 0 12px;font-size:13px">Si dejas una lista vacía, esa sección no se muestra en la página.</p><div class="cf">
+  ${ta('servicios','Servicios',t2(a.servicios),'Carga consolidada | Comparte espacio y paga solo por lo que envías.','uno por línea: Título | descripción')}
+  ${ta('rutas','Cobertura y rutas',arr(a.rutas).map(r=>r.join(' → ')).join('\n'),'Lima → Arequipa','una por línea: Origen → Destino')}
+  ${ta('pasos','Cómo funciona',t2(a.pasos),'Cotiza | Cuéntanos qué envías y a dónde.','uno por línea: Título | descripción')}
+  ${ta('faq','Preguntas frecuentes',t2(a.faq),'¿Cuánto demora? | Depende de la ruta.','una por línea: Pregunta | respuesta')}
+  ${ta('ubicaciones','Ubicaciones (para el mapa)',t2(a.ubicaciones),'Almacén Lima | Av. Argentina 1234, Callao','una por línea: Nombre | dirección completa')}</div></div>
   <div class="card"><h2 style="margin:0">Tema de colores</h2><div class="sw">${Object.entries(TEMAS).map(([k,[n,c]])=>`<label class="sw1"><input type="radio" name="tema" value="${k}" ${(a.tema||'azul')===k?'checked':''}><i style="background:${c}"></i>${n}</label>`).join('')}</div></div>
-  <button class="btn">Guardar cambios</button>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn">${nueva?'Crear agencia':'Guardar cambios'}</button>${nueva?'':`<a class="btn sec" href="/${esc(a.slug)}" target="_blank" rel="noopener" style="text-decoration:none">Ver página ↗</a>`}</div>
   <p id="cm" class="mute" role="status" style="margin:10px 0 0"></p></form>`;
+}
+function vMia(){
+  if(!S.cargado)return `<div class="card"><p class="mute" style="margin:0">Cargando…</p></div>`;
+  if(!S.ag)return `<div class="card"><h2 style="margin:0 0 6px">Mi agencia</h2><p class="mute" style="margin:0">Tu cuenta todavía no está vinculada a ninguna agencia. Escribe a quien administra carga.pe para que te dé acceso.</p></div>`;
+  return `<div class="bar"><h2>${esc(S.ag.nombre)}</h2></div>`+formAg(S.ag,false,false);
+}
+function vAgs(){
+  if(!esDueno())return vMia();
+  if(!S.cargado)return `<div class="card"><p class="mute" style="margin:0">Cargando…</p></div>`;
+  if(agSel===null){
+    const L=S.ags||[];
+    let h=`<div class="bar"><h2>Agencias</h2><button class="btn" data-a="ag-new">Nueva agencia</button></div>`;
+    if(!L.length)return h+`<div class="tw"><div class="empty">Todavía no hay agencias. Crea la primera con “Nueva agencia”.</div></div>`;
+    return h+`<div class="tw"><table><thead><tr><th>Agencia</th><th>Página</th><th>WhatsApp</th><th>Estado</th><th></th></tr></thead><tbody>${L.map(a=>`<tr><td><b>${esc(a.nombre)}</b></td><td><a href="/${esc(a.slug)}" target="_blank" rel="noopener">carga.pe/${esc(a.slug)}</a></td><td>${esc(a.whatsapp||'—')}</td><td>${a.activa?'Activa':'Pausada'}</td><td><button class="btn sec sm" data-a="ag-edit" data-id="${a.id}">Editar</button></td></tr>`).join('')}</tbody></table></div><p class="mute" style="font-size:13px">Las páginas de agencias no aparecen en Google (por ahora), pero cualquiera que tenga el enlace puede verlas.</p>`;
+  }
+  const nueva=agSel==='new',a=nueva?{activa:true,tema:'azul',...DEF}:(S.ags||[]).find(x=>x.id===agSel);
+  if(!a)return `<div class="card"><p class="mute">No se encontró la agencia.</p></div>`;
+  const acc=nueva?'':`<div class="card"><h2 style="margin:0 0 4px;font-size:17px">Cuentas con acceso</h2><p class="mute" style="margin:0 0 10px;font-size:13px">Estas personas entran a carga.pe/#admin y ven solo las órdenes, los inventarios y la página de esta agencia. Primero crea el usuario en Supabase (Authentication → Users → Add user, con “Auto Confirm User”) y luego escribe aquí su correo.</p>
+    <div id="acc">${S.acc===null?'<p class="mute">Cargando…</p>':S.acc.length?S.acc.map(e=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(e)}</span><button type="button" class="btn sec sm" data-a="ag-desv" data-e="${esc(e)}">Quitar</button></div>`).join(''):'<p class="mute" style="margin:0">Todavía nadie tiene acceso.</p>'}</div>
+    <div class="lk" style="margin-top:12px"><input id="accE" type="email" placeholder="correo@agencia.pe" aria-label="Correo del usuario"><button type="button" class="btn" data-a="ag-vinc">Dar acceso</button></div><p id="accM" class="mute" role="status" style="margin:6px 0 0"></p></div>`;
+  return `<div class="bar"><h2>${nueva?'Nueva agencia':esc(a.nombre)}</h2><button type="button" class="btn sec sm" data-a="ag-back">← Volver</button></div>`+formAg(a,nueva,true)+acc;
 }
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 // ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase =====
@@ -177,7 +227,7 @@ const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJh
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S={o:[]},user=null,SEG={t:null,o:null},tab='o',alm='Lima';
 const fromDb=r=>({num:r.num,id:'ORD-'+String(r.num).padStart(4,'0'),fecha:r.fecha,fe:r.fe,cliente:r.cliente,origen:r.origen,destino:r.destino,desc:r.mercancia,bultos:r.bultos,peso:r.peso==null?null:+r.peso,estado:r.estado,cond:r.cond,token:r.token});
-async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);S.cargado=!error;const r=await db.from('agencias').select('*').order('id').limit(1);S.ag=r.data&&r.data[0]||null}
+async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);S.cargado=!error;const r=await db.from('agencias').select('*').order('id');S.ags=r.data||[];const u=await db.from('agencia_usuarios').select('agencia_id').maybeSingle();S.ag=u.data?S.ags.find(a=>a.id===u.data.agencia_id)||null:null}
 
 function vO(){
   let h=`<div class="bar"><h2>Órdenes</h2><button class="btn" data-a="no">Nueva orden</button></div>`;
@@ -243,7 +293,7 @@ const vLogin=()=>`<div class="card" style="max-width:380px;margin:30px auto"><h2
 async function render(){
   document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
   const h=location.hash.slice(1),mc=h.match(/^seg-([a-z0-9]+)$/i),mo=h.match(/^orden-(ORD-\d+)$/),ad=h==='admin',fq=h==='preguntas',pub=!ad&&!mo;if(mc)mc[1]=mc[1].toUpperCase();
-  $('#tabs').style.display=ad&&user?'flex':'none';
+  $('#tabs').style.display=ad&&user?'flex':'none';$('#tabAg').style.display=esDueno()?'':'none';
   $('#site').style.display=pub?'':'none';
   $('#sfoot').style.display=pub?'':'none';
   document.body.classList.toggle('pub',pub);$('.wrap').classList.toggle('wide',pub);$('#main').className=pub&&mc?'narrow':'';
@@ -252,7 +302,7 @@ async function render(){
   if((ad||mo)&&user&&!S.cargado)await load();
   if(!mc)SEG.t=null;
   if(mc&&SEG.t!==mc[1]){$('#main').innerHTML='<p class="mute">Cargando…</p>';const{data}=await db.rpc('seguimiento',{p_token:mc[1]});SEG={t:mc[1],o:data&&data[0]?fromDb(data[0]):null};if(location.hash.slice(1)!==h)return}
-  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():tab==='i'?vI():vCuenta()):vHome();
+  $('#main').innerHTML=mc?vC(mc[1]):(ad||mo)&&!user?vLogin():mo?vOrd(mo[1]):ad?(tab==='o'?vO():tab==='i'?vI():tab==='a'?vAgs():vMia()):vHome();
   if(fq){const f=$('#faq');if(f)f.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
 }
 
@@ -289,19 +339,26 @@ function newO(ord){
     const row={cliente:o.cliente,mercancia:o.desc,origen:o.origen||null,destino:o.destino||null,bultos:o.bultos,peso:o.peso,estado:o.estado,cond:o.cond};
     if(ord&&ord.estado!==o.estado)row.fe=today();
     const{error}=ord?await db.from('ordenes').update(row).eq('num',ord.num):await db.from('ordenes').insert(row);
-    if(error)return error.message;
+    if(error)return error.code==='23502'?'Tu cuenta no está vinculada a una agencia. Escribe a quien administra carga.pe.':error.message;
     tab='o';
   });
 }
-document.addEventListener('click',e=>{
+async function cargarAcc(){const id=agSel;const{data}=await db.rpc('agencia_accesos',{p_agencia:id});if(agSel!==id)return;S.acc=(data||[]).map(r=>r.email);if(tab==='a')render()}
+document.addEventListener('input',e=>{const n=e.target;if(!n.form||n.form.id!=='cf')return;const s=n.form.elements.slug;if(s&&n.name==='nombre'&&n.form.dataset.nueva&&!s.dataset.t)s.value=slugify(n.value);if(n===s)s.dataset.t='1'});
+document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-t],[data-a],[data-alm]');if(!t)return;
-  if(t.dataset.t){tab=t.dataset.t;render()}
+  if(t.dataset.t){tab=t.dataset.t;agSel=null;render()}
+  else if(t.dataset.a==='ag-new'){agSel='new';S.acc=[];render();scrollTo(0,0)}
+  else if(t.dataset.a==='ag-edit'){agSel=+t.dataset.id;S.acc=null;render();scrollTo(0,0);cargarAcc()}
+  else if(t.dataset.a==='ag-back'){agSel=null;render()}
+  else if(t.dataset.a==='ag-vinc'){const e2=($('#accE').value||'').trim();if(!e2)return;const{data,error}=await db.rpc('vincular_usuario',{p_agencia:agSel,p_email:e2});if(!error&&data==='ok')await cargarAcc();$('#accM').textContent=error?'No se pudo: '+error.message:data==='ok'?'Acceso dado ✓':'Ese correo no tiene usuario en Supabase. Créalo primero en Authentication → Users → Add user.'}
+  else if(t.dataset.a==='ag-desv'){const{error}=await db.rpc('desvincular_usuario',{p_agencia:agSel,p_email:t.dataset.e});if(error){$('#accM').textContent='No se pudo: '+error.message}else{await cargarAcc();$('#accM').textContent='Acceso quitado ✓'}}
   else if(t.dataset.alm){alm=t.dataset.alm;render()}
   else if(t.dataset.a==='no')newO();
   else if(t.dataset.a==='eo')newO(S.o[+t.dataset.i]);
   else if(t.dataset.a==='del')askDel(+t.dataset.i);
   else if(t.dataset.a==='cp'){const inp=t.parentNode.querySelector('input');inp.select();let ok=false;try{ok=document.execCommand('copy')}catch(x){}const m=$('#cpm');if(m)m.textContent=ok?'Enlace copiado.':'Selecciona el enlace y cópialo con Ctrl+C.'}
-  else if(t.dataset.a==='out'){db.auth.signOut();user=null;S.o=[];location.hash='';render()}
+  else if(t.dataset.a==='out'){db.auth.signOut();user=null;S.o=[];S.ags=[];S.ag=null;S.cargado=false;agSel=null;location.hash='';render()}
 });
 document.addEventListener('change',async e=>{
   const s=e.target.closest('[data-otro]');
@@ -310,10 +367,22 @@ document.addEventListener('change',async e=>{
   const oo=S.o[+t.dataset.i],k=t.dataset.a==='es'?'estado':'cond',p={[k]:t.value};if(k==='estado')p.fe=today();const{error}=await db.from('ordenes').update(p).eq('num',oo.num);if(error)alert(error.message);await load();render();
 });
 document.addEventListener('submit',async e=>{
-  if(e.target.id==='cf'){e.preventDefault();const f=Object.fromEntries(new FormData(e.target)),row={};for(const k of ['nombre','titulo','bajada','telefono','email','direccion','horario'])row[k]=(f[k]||'').trim()||null;row.whatsapp=(f.whatsapp||'').replace(/\D/g,'')||null;row.tema=f.tema||'azul';
-    if(!row.nombre){$('#cm').textContent='El nombre de la agencia es obligatorio.';return}
-    const{data,error}=await db.from('agencias').update(row).eq('id',S.ag.id).select();
-    if(error)$('#cm').textContent='No se pudo guardar: '+error.message;else if(!data.length)$('#cm').textContent='No se guardó: falta el permiso. Ejecuta migracion-mi-cuenta.sql en Supabase.';else{Object.assign(S.ag,row);$('#cm').textContent='Cambios guardados ✓'}}
+  if(e.target.id==='cf'){e.preventDefault();const fm=e.target,f=Object.fromEntries(new FormData(fm)),row={},msg=x=>{$('#cm').textContent=x},nueva=!!fm.dataset.nueva,dueno=esDueno();
+    for(const k of ['nombre','titulo','bajada','telefono','email','direccion','horario'])row[k]=(f[k]||'').trim()||null;
+    row.favicon_texto=Array.from((f.favicon_texto||'').trim()).slice(0,2).join('')||null;
+    row.whatsapp=(f.whatsapp||'').replace(/\D/g,'')||null;row.tema=f.tema||'azul';
+    row.garantias=pUno(f.garantias);row.servicios=pDos(f.servicios);row.rutas=pRut(f.rutas);row.pasos=pDos(f.pasos);row.faq=pDos(f.faq);row.ubicaciones=pDos(f.ubicaciones);
+    if(!row.nombre)return msg('El nombre de la agencia es obligatorio.');
+    if(dueno){row.slug=slugify(f.slug);row.activa=!!f.activa;
+      if(row.slug.length<3)return msg('La dirección debe tener al menos 3 letras o números.');
+      if(RESERV.includes(row.slug))return msg('Esa dirección está reservada. Elige otra.')}
+    const id=nueva?null:+fm.dataset.id;
+    const{data,error}=nueva?await db.from('agencias').insert(row).select():await db.from('agencias').update(row).eq('id',id).select();
+    if(error){msg(error.code==='23505'?'Esa dirección ya la usa otra agencia. Elige otra.':error.code==='23514'?'La dirección no es válida o está reservada. Elige otra.':/column|schema/i.test(error.message)?'Falta ejecutar migracion-agencias-dinamicas.sql y migracion-multiagencia.sql en Supabase.':'No se pudo guardar: '+error.message);return}
+    if(!data.length)return msg('No se guardó: tu cuenta no tiene permiso para editar esta agencia.');
+    await load();
+    if(nueva){agSel=data[0].id;S.acc=[];render();$('#cm').textContent='Agencia creada ✓ Su página: https://carga.pe/'+row.slug+'. Ahora dale acceso con su correo (más abajo).'}
+    else{render();$('#cm').textContent='Cambios guardados ✓'}}
   if(e.target.id==='sf'){e.preventDefault();const q=$('#sq').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!q){$('#se').textContent='Ingresa tu código de seguimiento.';return}location.hash='seg-'+q}
   if(e.target.id==='lf'){e.preventDefault();const f=new FormData(e.target);const{data,error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('pw')});if(error){$('#le').textContent='Correo o contraseña incorrectos.';return}user=data.user;await load();render()}
 });

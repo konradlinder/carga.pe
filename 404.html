@@ -148,7 +148,7 @@ async function mostrar(){
   if(!m){box.innerHTML='';segTok=null;return}
   const t=m[1].toUpperCase();$('#tc').value=t;segTok=t;
   box.innerHTML='<div class="c rs"><p class="mt" style="margin:0">Buscando tu envío…</p></div>';
-  let r;try{r=await db.rpc('seguimiento',{p_token:t})}catch(e){r={error:e}}
+  let r;try{r=await db.rpc('seguimiento_agencia',{p_token:t,p_slug:decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g,'').toLowerCase()})}catch(e){r={error:e}}
   if(segTok!==t)return;
   const o=r&&r.data&&r.data[0];
   if(!o){box.innerHTML=`<div class="c rs"><h3>No encontramos este código</h3><p class="mt" style="margin:6px 0 0">Verifica que lo hayas escrito completo, sin espacios. Si el problema continúa, escríbenos por WhatsApp.</p><button class="x" type="button" data-x>Cerrar</button></div>`}
