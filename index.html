@@ -174,6 +174,16 @@ const pDos=t=>String(t||'').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>
 const pUno=t=>String(t||'').split('\n').map(l=>l.trim()).filter(Boolean);
 const pRut=t=>String(t||'').split('\n').map(l=>l.trim().split(/\s*(?:→|->|>|\s-\s)\s*/)).filter(p=>p.length>=2&&p[0]&&p[1]).map(p=>[p[0],p[1]]);
 const esDueno=()=>!!user&&String(user.email||'').toLowerCase()==='admin@logix.pe';
+// ===== PERMISOS por tipo de usuario (aquí se definirá qué puede hacer cada uno) =====
+// dueno: tú · admin: administrador de agencia · colaborador: colaborador de agencia
+const PERMISOS={
+  dueno:{editarPagina:true,verOrdenes:true,editarOrdenes:true},
+  admin:{editarPagina:true,verOrdenes:true,editarOrdenes:true},
+  colaborador:{editarPagina:true,verOrdenes:true,editarOrdenes:true}
+};
+const ROLES={admin:'Administrador',colaborador:'Colaborador'};
+const miRol=()=>esDueno()?'dueno':(S.rol||'colaborador');
+const can=k=>!!(PERMISOS[miRol()]||{})[k];
 let agSel=null;
 function formAg(a,nueva,dueno){
   const f=(k,l,c='',ph='')=>`<label class="${c}">${l}<input name="${k}" value="${esc(a[k])}" placeholder="${ph}"></label>`;
@@ -203,7 +213,9 @@ function formAg(a,nueva,dueno){
 function vMia(){
   if(!S.cargado)return `<div class="card"><p class="mute" style="margin:0">Cargando…</p></div>`;
   if(!S.ag)return `<div class="card"><h2 style="margin:0 0 6px">Mi agencia</h2><p class="mute" style="margin:0">Tu cuenta todavía no está vinculada a ninguna agencia. Escribe a quien administra carga.pe para que te dé acceso.</p></div>`;
-  return `<div class="bar"><h2>${esc(S.ag.nombre)}</h2></div>`+formAg(S.ag,false,false);
+  const rl=esDueno()?'Dueño':ROLES[S.rol]||'';
+  if(!can('editarPagina'))return `<div class="bar"><h2>${esc(S.ag.nombre)}</h2></div><div class="card"><p class="mute" style="margin:0">Tu rol (${rl}) no puede editar la página de la agencia. Pídeselo al administrador.</p></div>`;
+  return `<div class="bar"><h2>${esc(S.ag.nombre)}</h2><span class="mute">${rl}</span></div>`+formAg(S.ag,false,false);
 }
 function vAgs(){
   if(!esDueno())return vMia();
@@ -216,9 +228,9 @@ function vAgs(){
   }
   const nueva=agSel==='new',a=nueva?{activa:true,tema:'azul',...DEF}:(S.ags||[]).find(x=>x.id===agSel);
   if(!a)return `<div class="card"><p class="mute">No se encontró la agencia.</p></div>`;
-  const acc=nueva?'':`<div class="card"><h2 style="margin:0 0 4px;font-size:17px">Cuentas con acceso</h2><p class="mute" style="margin:0 0 10px;font-size:13px">Estas personas entran a carga.pe/#admin y ven solo las órdenes, los inventarios y la página de esta agencia. Primero crea el usuario en Supabase (Authentication → Users → Add user, con “Auto Confirm User”) y luego escribe aquí su correo.</p>
-    <div id="acc">${S.acc===null?'<p class="mute">Cargando…</p>':S.acc.length?S.acc.map(e=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(e)}</span><button type="button" class="btn sec sm" data-a="ag-desv" data-e="${esc(e)}">Quitar</button></div>`).join(''):'<p class="mute" style="margin:0">Todavía nadie tiene acceso.</p>'}</div>
-    <div class="lk" style="margin-top:12px"><input id="accE" type="email" placeholder="correo@agencia.pe" aria-label="Correo del usuario"><button type="button" class="btn" data-a="ag-vinc">Dar acceso</button></div><p id="accM" class="mute" role="status" style="margin:6px 0 0"></p></div>`;
+  const acc=nueva?'':`<div class="card"><h2 style="margin:0 0 4px;font-size:17px">Cuentas con acceso</h2><p class="mute" style="margin:0 0 10px;font-size:13px">Estas personas entran a carga.pe/#admin y ven solo las órdenes, los inventarios y la página de esta agencia. El <b>administrador</b> y el <b>colaborador</b> son roles distintos; para cambiar el rol de alguien, vuelve a darle acceso con el otro rol. Primero crea el usuario en Supabase (Authentication → Users → Add user, con “Auto Confirm User”) y luego escribe aquí su correo.</p>
+    <div id="acc">${S.acc===null?'<p class="mute">Cargando…</p>':S.acc.length?S.acc.map(x=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)"><span>${esc(x.email)} <span class="mute">· ${ROLES[x.rol]||x.rol}</span></span><button type="button" class="btn sec sm" data-a="ag-desv" data-e="${esc(x.email)}">Quitar</button></div>`).join(''):'<p class="mute" style="margin:0">Todavía nadie tiene acceso.</p>'}</div>
+    <div class="lk" style="margin-top:12px;flex-wrap:wrap"><input id="accE" type="email" placeholder="correo@agencia.pe" aria-label="Correo del usuario" style="flex:1;min-width:200px"><select id="accR" aria-label="Rol" style="width:auto"><option value="admin">Administrador</option><option value="colaborador">Colaborador</option></select><button type="button" class="btn" data-a="ag-vinc">Dar acceso</button></div><p id="accM" class="mute" role="status" style="margin:6px 0 0"></p></div>`;
   return `<div class="bar"><h2>${nueva?'Nueva agencia':esc(a.nombre)}</h2><button type="button" class="btn sec sm" data-a="ag-back">← Volver</button></div>`+formAg(a,nueva,true)+acc;
 }
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -227,7 +239,7 @@ const SUPABASE_URL='https://wrpovcjoenhgkatocclk.supabase.co',SUPABASE_KEY='eyJh
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S={o:[]},user=null,SEG={t:null,o:null},tab='o',alm='Lima';
 const fromDb=r=>({num:r.num,id:'ORD-'+String(r.num).padStart(4,'0'),fecha:r.fecha,fe:r.fe,cliente:r.cliente,origen:r.origen,destino:r.destino,desc:r.mercancia,bultos:r.bultos,peso:r.peso==null?null:+r.peso,estado:r.estado,cond:r.cond,token:r.token});
-async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);S.cargado=!error;const r=await db.from('agencias').select('*').order('id');S.ags=r.data||[];const u=await db.from('agencia_usuarios').select('agencia_id').maybeSingle();S.ag=u.data?S.ags.find(a=>a.id===u.data.agencia_id)||null:null}
+async function load(){const{data,error}=await db.from('ordenes').select('*').order('num');if(error)alert('No se pudieron cargar las órdenes: '+error.message);S.o=(data||[]).map(fromDb);S.cargado=!error;const r=await db.from('agencias').select('*').order('id');S.ags=r.data||[];const u=await db.from('agencia_usuarios').select('agencia_id,rol').maybeSingle();S.ag=u.data?S.ags.find(a=>a.id===u.data.agencia_id)||null:null;S.rol=u.data?u.data.rol:null}
 
 function vO(){
   let h=`<div class="bar"><h2>Órdenes</h2><button class="btn" data-a="no">Nueva orden</button></div>`;
@@ -343,7 +355,7 @@ function newO(ord){
     tab='o';
   });
 }
-async function cargarAcc(){const id=agSel;const{data}=await db.rpc('agencia_accesos',{p_agencia:id});if(agSel!==id)return;S.acc=(data||[]).map(r=>r.email);if(tab==='a')render()}
+async function cargarAcc(){const id=agSel;const{data}=await db.rpc('agencia_accesos',{p_agencia:id});if(agSel!==id)return;S.acc=(data||[]).map(r=>({email:r.email,rol:r.rol}));if(tab==='a')render()}
 document.addEventListener('input',e=>{const n=e.target;if(!n.form||n.form.id!=='cf')return;const s=n.form.elements.slug;if(s&&n.name==='nombre'&&n.form.dataset.nueva&&!s.dataset.t)s.value=slugify(n.value);if(n===s)s.dataset.t='1'});
 document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-t],[data-a],[data-alm]');if(!t)return;
@@ -351,14 +363,14 @@ document.addEventListener('click',async e=>{
   else if(t.dataset.a==='ag-new'){agSel='new';S.acc=[];render();scrollTo(0,0)}
   else if(t.dataset.a==='ag-edit'){agSel=+t.dataset.id;S.acc=null;render();scrollTo(0,0);cargarAcc()}
   else if(t.dataset.a==='ag-back'){agSel=null;render()}
-  else if(t.dataset.a==='ag-vinc'){const e2=($('#accE').value||'').trim();if(!e2)return;const{data,error}=await db.rpc('vincular_usuario',{p_agencia:agSel,p_email:e2});if(!error&&data==='ok')await cargarAcc();$('#accM').textContent=error?'No se pudo: '+error.message:data==='ok'?'Acceso dado ✓':'Ese correo no tiene usuario en Supabase. Créalo primero en Authentication → Users → Add user.'}
+  else if(t.dataset.a==='ag-vinc'){const e2=($('#accE').value||'').trim();if(!e2)return;const{data,error}=await db.rpc('vincular_usuario',{p_agencia:agSel,p_email:e2,p_rol:$('#accR').value});if(!error&&data==='ok')await cargarAcc();$('#accM').textContent=error?'No se pudo: '+error.message:data==='ok'?'Acceso dado ✓':'Ese correo no tiene usuario en Supabase. Créalo primero en Authentication → Users → Add user.'}
   else if(t.dataset.a==='ag-desv'){const{error}=await db.rpc('desvincular_usuario',{p_agencia:agSel,p_email:t.dataset.e});if(error){$('#accM').textContent='No se pudo: '+error.message}else{await cargarAcc();$('#accM').textContent='Acceso quitado ✓'}}
   else if(t.dataset.alm){alm=t.dataset.alm;render()}
   else if(t.dataset.a==='no')newO();
   else if(t.dataset.a==='eo')newO(S.o[+t.dataset.i]);
   else if(t.dataset.a==='del')askDel(+t.dataset.i);
   else if(t.dataset.a==='cp'){const inp=t.parentNode.querySelector('input');inp.select();let ok=false;try{ok=document.execCommand('copy')}catch(x){}const m=$('#cpm');if(m)m.textContent=ok?'Enlace copiado.':'Selecciona el enlace y cópialo con Ctrl+C.'}
-  else if(t.dataset.a==='out'){db.auth.signOut();user=null;S.o=[];S.ags=[];S.ag=null;S.cargado=false;agSel=null;location.hash='';render()}
+  else if(t.dataset.a==='out'){db.auth.signOut();user=null;S.o=[];S.ags=[];S.ag=null;S.rol=null;S.cargado=false;agSel=null;location.hash='';render()}
 });
 document.addEventListener('change',async e=>{
   const s=e.target.closest('[data-otro]');
@@ -367,7 +379,7 @@ document.addEventListener('change',async e=>{
   const oo=S.o[+t.dataset.i],k=t.dataset.a==='es'?'estado':'cond',p={[k]:t.value};if(k==='estado')p.fe=today();const{error}=await db.from('ordenes').update(p).eq('num',oo.num);if(error)alert(error.message);await load();render();
 });
 document.addEventListener('submit',async e=>{
-  if(e.target.id==='cf'){e.preventDefault();const fm=e.target,f=Object.fromEntries(new FormData(fm)),row={},msg=x=>{$('#cm').textContent=x},nueva=!!fm.dataset.nueva,dueno=esDueno();
+  if(e.target.id==='cf'){e.preventDefault();const fm=e.target,f=Object.fromEntries(new FormData(fm)),row={},msg=x=>{$('#cm').textContent=x},nueva=!!fm.dataset.nueva,dueno=esDueno()&&!!fm.elements.slug; // solo el formulario de la pestaña Agencias trae la dirección y el estado
     for(const k of ['nombre','titulo','bajada','telefono','email','direccion','horario'])row[k]=(f[k]||'').trim()||null;
     row.favicon_texto=Array.from((f.favicon_texto||'').trim()).slice(0,2).join('')||null;
     row.whatsapp=(f.whatsapp||'').replace(/\D/g,'')||null;row.tema=f.tema||'azul';
